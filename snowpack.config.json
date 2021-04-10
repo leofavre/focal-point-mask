@@ -1,0 +1,12 @@
+{
+  "mount": {
+    "public": "/",
+    "src": "/"
+  },
+  "devOptions": {
+    "out": "dist"
+  },
+  "buildOptions": {
+    "clean": true
+  }
+}

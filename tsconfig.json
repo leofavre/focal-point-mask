@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": true,
+    "target": "esnext",
+    "module": "esnext",
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./src/*.ts"
+  ],
+  "exclude": [
+    "./src/*.d.ts",
+    "./src/*.spec.ts",
+    "./dist",
+    "./With*.ts"
+  ]
+}
