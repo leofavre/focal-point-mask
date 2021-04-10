@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./index.css" rel="stylesheet">
+  <title>Media Mask</title>
+</head>
+<body>
+  <div class="mask">
+    <img class="image" src="./tall.jpg">
+  </div>
+
+  <div class="mask">
+    <video class="image" src="./video.mp4"></video>
+  </div>
+
+  <script type="module">
+    import { getMediaRatio } from './index.ts';
+
+    const maskElements = document.querySelectorAll('.mask');
+
+    const getMediaElement = maskElement =>
+      maskElement.querySelector('img, video');
+
+    const handleResize = element => {
+      element.forEach(({ target, contentRect }) => {
+        const mediaElement = getMediaElement(target);
+
+        if (mediaElement != null) {
+          const maskRatio = contentRect.width / contentRect.height;
+          const mediaRatio = getMediaRatio(mediaElement);
+
+          if (maskRatio && mediaRatio) {
+            const replacements = maskRatio > mediaRatio
+              ? ['full-height', 'full-width']
+              : ['full-width', 'full-height'];
+
+            mediaElement.classList.remove(replacements[0]);
+            mediaElement.classList.add(replacements[1]);
+          }
+        }
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+
+    maskElements.forEach(maskElement => {
+      resizeObserver.observe(maskElement);
+    });
+  </script>
+</body>
+</html>
