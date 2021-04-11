@@ -1,4 +1,5 @@
 dist/
+temp/
 coverage/
 cypress/screenshots/
 cypress/videos/
