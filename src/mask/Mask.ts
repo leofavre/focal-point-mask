@@ -2,9 +2,15 @@ import type { MediaElement } from '../types/MediaElement';
 import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
 
+type FocalPoint = {
+  left: number;
+  top: number;
+}
+
 class Mask {
   public mask: HTMLElement;
   public media: MediaElement | null;
+  private _focalPoint: FocalPoint;
 
   constructor (maskElement: HTMLElement) {
     this.mask = maskElement;
@@ -23,6 +29,21 @@ class Mask {
 
   get mediaRatio (): number | undefined {
     return getMediaRatio(this.media);
+  }
+
+  get focalPoint (): FocalPoint {
+    const { left = 50, top = 50 } = this._focalPoint || {};
+    return { left, top };
+  }
+
+  set focalPoint ({ left, top }: FocalPoint) {
+    this._focalPoint = { left, top };
+
+    if (this.media != null) {
+      this.media.style.left = `${left}%`;
+      this.media.style.top = `${top}%`;
+      this.media.style.transform = `translate(-${left}%, -${top}%)`;
+    }
   }
 
   initMask (): void {
@@ -48,6 +69,9 @@ class Mask {
 
       this.media.classList.remove(replacements[0]);
       this.media.classList.add(replacements[1]);
+
+      const nextFocalPoint = this.focalPoint;
+      this.focalPoint = nextFocalPoint;
     }
   }
 }

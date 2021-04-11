@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,22 +8,28 @@
   <link href="./index.css" rel="stylesheet">
   <title>Media Mask</title>
 </head>
+
 <body>
-  <div class="mask">
-    <img class="media" src="./tall.jpg">
-  </div>
-
-  <div class="mask">
-    <video class="media" src="./video.mp4"></video>
-  </div>
-
+  <div class="mask"><img src="./tall.jpg"></div>
+  <div class="mask"><video src="./video.mp4"></video></div>
   <div class="mask"></div>
 
   <script type="module">
     import { Mask } from './index.ts';
-    const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
+
+    const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/' +
+      'h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
+
     const maskElements = document.querySelectorAll('.mask');
-    maskElements.forEach(maskElement => new Mask(maskElement));
+
+    const masks = [];
+
+    maskElements.forEach(maskElement => {
+      masks.push(new Mask(maskElement))
+    });
+
+    masks[0].focalPoint = { left: 33, top: 70 };
+    masks[2].focalPoint = { left: 25, top: 25 };
 
     setTimeout(() => {
       const videoElement = document.createElement('video');
@@ -31,4 +38,5 @@
     }, 500);
   </script>
 </body>
+
 </html>

@@ -14,20 +14,18 @@ body > * {
 
 .mask {
   display: block;
-  width: calc(100% - 20px);
+  width: 500px;
   height: 500px;
-  resize: both;
   overflow: hidden;
+  resize: both;
 }
 
 .media {
   position: relative;
   display: block;
-
-  left: 33%;
-  top: 70%;
-  transform: translateX(-33%) translateY(-70%);
-  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%, -50%);
 }
 
 .media.full-height {
