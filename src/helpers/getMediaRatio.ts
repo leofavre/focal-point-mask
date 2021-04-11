@@ -10,7 +10,7 @@ const getMediaRatio: GetMediaRatio = mediaElement => {
   }
 
   const { nodeName } = mediaElement;
-  let ratio;
+  let ratio: number | undefined;
 
   if (nodeName === 'IMG') {
     const { naturalWidth, naturalHeight } = mediaElement as HTMLImageElement;
