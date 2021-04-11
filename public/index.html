@@ -22,16 +22,15 @@
 
   <script type="module">
     import { MaskWithFocalPoint } from './index.ts';
+
     window.customElements.define('mask-with-focal-point', MaskWithFocalPoint);
-
-    const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/' +
-      'h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
-
     const maskElements = document.querySelectorAll('mask-with-focal-point');
-
     maskElements[0].focalPoint = [44, 75];
 
     setTimeout(() => {
+      const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/' +
+        'h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
+
       const videoElement = document.createElement('video');
       videoElement.setAttribute('src', SRC);
       maskElements[2].appendChild(videoElement);
