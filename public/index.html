@@ -10,32 +10,8 @@
 </head>
 
 <body>
-  <focal-point-mask>
-    <img src="https://picsum.photos/id/1012/3973/2639">
-  </focal-point-mask>
-
-  <focal-point-mask focalpoint="30,48">
-    <img src="https://picsum.photos/id/1011/5472/3648">
-  </focal-point-mask>
-
-  <focal-point-mask></focal-point-mask>
-
-  <script type="module">
-    import { FocalPointMask } from './index.ts';
-
-    window.customElements.define('focal-point-mask', FocalPointMask);
-    const maskElements = document.querySelectorAll('focal-point-mask');
-    maskElements[0].focalPoint = [44, 75];
-
-    setTimeout(() => {
-      const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/' +
-        'h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
-
-      const videoElement = document.createElement('video');
-      videoElement.setAttribute('src', SRC);
-      maskElements[2].appendChild(videoElement);
-    }, 500);
-  </script>
+  <div id="root"></div>
+  <script type="module" src="./app.js"></script>
 </body>
 
 </html>
