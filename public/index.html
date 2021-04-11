@@ -10,26 +10,26 @@
 </head>
 
 <body>
-  <div class="mask"><img src="./tall.jpg"></div>
-  <div class="mask"><video src="./video.mp4"></video></div>
-  <div class="mask"></div>
+  <mask-with-focal-point>
+    <img src="./tall.jpg">
+  </mask-with-focal-point>
+
+  <mask-with-focal-point focalpoint="25,40">
+    <video src="./video.mp4"></video>
+  </mask-with-focal-point>
+
+  <mask-with-focal-point></mask-with-focal-point>
 
   <script type="module">
-    import { Mask } from './index.ts';
+    import { MaskWithFocalPoint } from './index.ts';
+    window.customElements.define('mask-with-focal-point', MaskWithFocalPoint);
 
     const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/' +
       'h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
 
-    const maskElements = document.querySelectorAll('.mask');
+    const maskElements = document.querySelectorAll('mask-with-focal-point');
 
-    const masks = [];
-
-    maskElements.forEach(maskElement => {
-      masks.push(new Mask(maskElement))
-    });
-
-    masks[0].focalPoint = { left: 33, top: 70 };
-    masks[1].focalPoint = { left: 40, top: 25 };
+    maskElements[0].focalPoint = [70, 33];
 
     setTimeout(() => {
       const videoElement = document.createElement('video');

@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  margin: 0;
+  margin: 50px;
   min-height: 100%;
 }
 
@@ -12,7 +12,8 @@ body > * {
   margin: 10px;
 }
 
-.mask {
+mask-with-focal-point {
+  display: block;
   width: 500px;
   height: 500px;
   resize: both;

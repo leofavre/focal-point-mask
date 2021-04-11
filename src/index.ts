@@ -1,4 +1,4 @@
 import getMediaRatio from './helpers/getMediaRatio';
-import Mask from './mask/Mask';
+import MaskWithFocalPoint from './web-component/MaskWithFocalPoint';
 
-export { getMediaRatio, Mask };
+export { getMediaRatio, MaskWithFocalPoint };
