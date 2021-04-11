@@ -13,27 +13,8 @@ body > * {
 }
 
 .mask {
-  display: block;
   width: 500px;
   height: 500px;
-  overflow: hidden;
   resize: both;
-}
-
-.media {
-  position: relative;
-  display: block;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%, -50%);
-}
-
-.media.full-height {
-  width: auto;
-  height: 100%;
-}
-
-.media.full-width {
-  width: 100%;
-  height: auto;
+  overflow: hidden;
 }

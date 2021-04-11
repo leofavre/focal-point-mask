@@ -47,11 +47,15 @@ class Mask {
   }
 
   initMask (): void {
-    this.mask.classList.add('mask');
+    this.mask.style.position = 'relative';
+    this.mask.style.display = 'block';
+    this.mask.style.overflow = 'hidden';
+
     this.media = this.mask.querySelector('img, video');
 
     if (this.media != null) {
-      this.media.classList.add('media');
+      this.media.style.position = 'absolute';
+      this.media.style.display = 'block';
 
       if (this.mediaRatio != null) {
         this.handleResize();
@@ -63,12 +67,9 @@ class Mask {
 
   handleResize (): void {
     if (this.media != null && this.mediaRatio != null) {
-      const replacements = this.maskRatio > this.mediaRatio
-        ? ['full-height', 'full-width']
-        : ['full-width', 'full-height'];
-
-      this.media.classList.remove(replacements[0]);
-      this.media.classList.add(replacements[1]);
+      const cropSides = this.maskRatio > this.mediaRatio;
+      this.media.style.width = cropSides ? '100%' : 'auto';
+      this.media.style.height = cropSides ? 'auto' : '100%';
 
       const nextFocalPoint = this.focalPoint;
       this.focalPoint = nextFocalPoint;
