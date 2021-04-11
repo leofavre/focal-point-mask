@@ -1,4 +1,4 @@
-import MaskWithFocalPointTemplate from './MaskWithFocalPointTemplate';
+import FocalPointMaskTemplate from './FocalPointMaskTemplate';
 import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
 import type { MediaElement } from '../types/MediaElement';
@@ -6,7 +6,7 @@ import type { MediaElement } from '../types/MediaElement';
 type ObservedAttribute = 'focalpoint';
 type FocalPoint = [top: number, left: number];
 
-class MaskWithFocalPoint extends HTMLElement {
+class FocalPointMask extends HTMLElement {
   public media: MediaElement | null;
   private _mutationObserver: MutationObserver;
   private _resizeObserver: ResizeObserver;
@@ -14,15 +14,15 @@ class MaskWithFocalPoint extends HTMLElement {
   constructor () {
     super();
     this.attachShadow({ mode: 'open' });
-    const content = MaskWithFocalPointTemplate.content.cloneNode(true);
+    const content = FocalPointMaskTemplate.content.cloneNode(true);
     this.shadowRoot?.appendChild(content);
   }
 
   connectedCallback (): void {
-    this.initMask();
+    this.detectMedia();
 
     const options = { childList: true, subtree: true };
-    this._mutationObserver = new MutationObserver(() => this.initMask());
+    this._mutationObserver = new MutationObserver(() => this.detectMedia());
     this._mutationObserver.observe(this, options);
 
     this._resizeObserver = new ResizeObserver(() => this.handleResize());
@@ -59,15 +59,12 @@ class MaskWithFocalPoint extends HTMLElement {
     this.setAttribute('focalpoint', `${top},${left}`);
   }
 
-  initMask (): void {
+  detectMedia (): void {
     this.media = this.querySelector('img, video');
+    this.handleResize();
 
-    if (this.media != null) {
-      if (this.mediaRatio != null) {
-        this.handleResize();
-      } else {
-        onMediaLoaded(this.media, () => this.initMask());
-      }
+    if (this.media != null && this.mediaRatio == null) {
+      onMediaLoaded(this.media, () => this.detectMedia());
     }
   }
 
@@ -85,4 +82,4 @@ class MaskWithFocalPoint extends HTMLElement {
   }
 }
 
-export default MaskWithFocalPoint;
+export default FocalPointMask;

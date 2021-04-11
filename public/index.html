@@ -6,25 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./index.css" rel="stylesheet">
-  <title>Media Mask</title>
+  <title>Focal Point Mask</title>
 </head>
 
 <body>
-  <mask-with-focal-point>
+  <focal-point-mask>
     <img src="https://picsum.photos/id/1012/3973/2639">
-  </mask-with-focal-point>
+  </focal-point-mask>
 
-  <mask-with-focal-point focalpoint="39,48">
+  <focal-point-mask focalpoint="39,48">
     <img src="https://picsum.photos/id/1011/5472/3648">
-  </mask-with-focal-point>
+  </focal-point-mask>
 
-  <mask-with-focal-point></mask-with-focal-point>
+  <focal-point-mask></focal-point-mask>
 
   <script type="module">
-    import { MaskWithFocalPoint } from './index.ts';
+    import { FocalPointMask } from './index.ts';
 
-    window.customElements.define('mask-with-focal-point', MaskWithFocalPoint);
-    const maskElements = document.querySelectorAll('mask-with-focal-point');
+    window.customElements.define('focal-point-mask', FocalPointMask);
+    const maskElements = document.querySelectorAll('focal-point-mask');
     maskElements[0].focalPoint = [44, 75];
 
     setTimeout(() => {

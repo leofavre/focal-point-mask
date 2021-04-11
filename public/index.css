@@ -1,18 +1,4 @@
-html {
-  margin: 0;
-  height: 100%;
-}
-
-body {
-  margin: 50px;
-  min-height: 100%;
-}
-
-body > * {
-  margin: 10px;
-}
-
-mask-with-focal-point {
+focal-point-mask {
   display: block;
   width: 500px;
   height: 500px;
