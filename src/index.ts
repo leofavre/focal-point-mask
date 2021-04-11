@@ -1,4 +1,4 @@
 import getMediaRatio from './helpers/getMediaRatio';
-import type { MediaElement } from './helpers/getMediaRatio';
+import Mask from './mask/Mask';
 
-export { getMediaRatio, MediaElement };
+export { getMediaRatio, Mask };

@@ -1,10 +1,14 @@
-export type MediaElement = HTMLImageElement | HTMLVideoElement;
+import type { MediaElement } from '../types/MediaElement';
 
 interface GetMediaRatio {
-  (mediaElement: MediaElement): number | undefined;
+  (mediaElement: MediaElement | null): number | undefined;
 }
 
 const getMediaRatio: GetMediaRatio = mediaElement => {
+  if (mediaElement == null) {
+    return undefined;
+  }
+
   const { nodeName } = mediaElement;
   let ratio;
 

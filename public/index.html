@@ -9,46 +9,26 @@
 </head>
 <body>
   <div class="mask">
-    <img class="image" src="./tall.jpg">
+    <img class="media" src="./tall.jpg">
   </div>
 
   <div class="mask">
-    <video class="image" src="./video.mp4"></video>
+    <video class="media" src="./video.mp4"></video>
   </div>
 
+  <div class="mask"></div>
+
   <script type="module">
-    import { getMediaRatio } from './index.ts';
-
+    import { Mask } from './index.ts';
+    const SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
     const maskElements = document.querySelectorAll('.mask');
+    maskElements.forEach(maskElement => new Mask(maskElement));
 
-    const getMediaElement = maskElement =>
-      maskElement.querySelector('img, video');
-
-    const handleResize = element => {
-      element.forEach(({ target, contentRect }) => {
-        const mediaElement = getMediaElement(target);
-
-        if (mediaElement != null) {
-          const maskRatio = contentRect.width / contentRect.height;
-          const mediaRatio = getMediaRatio(mediaElement);
-
-          if (maskRatio && mediaRatio) {
-            const replacements = maskRatio > mediaRatio
-              ? ['full-height', 'full-width']
-              : ['full-width', 'full-height'];
-
-            mediaElement.classList.remove(replacements[0]);
-            mediaElement.classList.add(replacements[1]);
-          }
-        }
-      });
-    };
-
-    const resizeObserver = new ResizeObserver(handleResize);
-
-    maskElements.forEach(maskElement => {
-      resizeObserver.observe(maskElement);
-    });
+    setTimeout(() => {
+      const videoElement = document.createElement('video');
+      videoElement.setAttribute('src', SRC);
+      maskElements[2].appendChild(videoElement);
+    }, 500);
   </script>
 </body>
 </html>

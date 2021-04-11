@@ -20,7 +20,7 @@ body > * {
   overflow: hidden;
 }
 
-.image {
+.media {
   position: relative;
   display: block;
 
@@ -30,12 +30,12 @@ body > * {
   z-index: 0;
 }
 
-.image.full-height {
+.media.full-height {
   width: auto;
   height: 100%;
 }
 
-.image.full-width {
+.media.full-width {
   width: 100%;
   height: auto;
 }

@@ -1,5 +1,5 @@
 import getMediaRatio from './getMediaRatio';
-import type { MediaElement } from './getMediaRatio';
+import type { MediaElement } from '../types/MediaElement';
 
 let mediaElement: MediaElement;
 
@@ -12,6 +12,10 @@ describe('getMediaRatio', () => {
     } as HTMLImageElement;
 
     expect(getMediaRatio(mediaElement)).toBe(150 / 200);
+  });
+
+  it('should return undefined if the element is null', () => {
+    expect(getMediaRatio(null)).toBeUndefined();
   });
 
   it('should use videoWidth and videoHeight if media is a video', () => {
