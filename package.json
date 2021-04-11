@@ -1,12 +1,13 @@
 {
-  "name": "template-repo",
+  "name": "focal-point-mask",
   "version": "0.1.0",
-  "description": "Media Mask",
+  "description": "Focal Point Mask",
   "main": "src/index.js",
   "scripts": {
     "start": "snowpack dev --port 8080",
-    "check-semantic": "tsc --noEmit",
-    "test": "jest --coverage"
+    "build": "tsc",
+    "test": "jest --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "author": "Leonardo Favre <leo@leofavre.com> (https://www.leofavre.com/)",
   "license": "MIT",
