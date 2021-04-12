@@ -37,7 +37,10 @@ const App = () => {
         focalPoint={[30, 48]}
         style={{ width: '100%', height: 500, resize: 'both' }}
       >
-        <img src="https://picsum.photos/id/1011/5472/3648"/>
+        <picture>
+          <source srcSet="https://picsum.photos/id/1011/5472/3648"/>
+          <img src="https://picsum.photos/id/1011/5472/3648"/>
+        </picture>
       </FocalPointMaskReact>
 
       <FocalPointMaskReact
@@ -51,7 +54,10 @@ const App = () => {
       </focal-point-mask>
 
       <focal-point-mask focalpoint="30,48">
-        <img src="https://picsum.photos/id/1011/5472/3648"/>
+        <picture>
+          <source srcSet="https://picsum.photos/id/1011/5472/3648"/>
+          <img src="https://picsum.photos/id/1011/5472/3648"/>
+        </picture>
       </focal-point-mask>
 
       <focal-point-mask>

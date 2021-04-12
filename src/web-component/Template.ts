@@ -18,6 +18,10 @@ Template.innerHTML = `
       top: 50%;
       transform: translate(-50%, -50%);
     }
+
+    ::slotted(picture) {
+      position: static;
+    }
   </style>
   <slot></slot>
 `;

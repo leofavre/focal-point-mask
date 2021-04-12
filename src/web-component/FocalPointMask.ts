@@ -75,6 +75,8 @@ class FocalPointMask extends HTMLElement {
       const clipSides = this.maskRatio > this.mediaRatio;
       const [top, left] = this.focalPoint;
 
+      this.media.style.position = 'absolute';
+      this.media.style.display = 'block';
       this.media.style.width = clipSides ? '100%' : 'auto';
       this.media.style.height = clipSides ? 'auto' : '100%';
       this.media.style.top = `${top}%`;

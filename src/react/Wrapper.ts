@@ -18,6 +18,10 @@ const Wrapper = styled.div<{ focalPoint: FocalPoint; clipSides: boolean; }>`
     transform: ${({ focalPoint }) =>
       `translate(-${focalPoint[1]}%, -${focalPoint[0]}%)`};
   }
+
+  picture {
+    position: static;
+  }
 `;
 
 export default Wrapper;
