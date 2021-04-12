@@ -1,3 +1,3 @@
-# Media Mask
+# Focal Point Mask
 
-Media mask with focal point.
+Mask for images and videos with a focal point.
