@@ -33,18 +33,18 @@ const FocalPointMask = (props: PropsWithChildren<FocalPointMaskProps>) => {
     setMediaRatio(getMediaRatio(target));
   };
 
-  useLayoutEffect(() => {
-    if (maskRatio != null && mediaRatio != null) {
-      setClipSides(maskRatio > mediaRatio);
-    }
-  }, [maskRatio, mediaRatio]);
-
   useResizeObserver(maskElement, () => {
     const { offsetWidth, offsetHeight } = maskElement.current ?? {};
     if (offsetWidth != null && offsetHeight != null) {
       setMaskRatio(offsetWidth / offsetHeight);
     }
   });
+
+  useLayoutEffect(() => {
+    if (maskRatio != null && mediaRatio != null) {
+      setClipSides(maskRatio > mediaRatio);
+    }
+  }, [maskRatio, mediaRatio]);
 
   return (
     <Wrapper
