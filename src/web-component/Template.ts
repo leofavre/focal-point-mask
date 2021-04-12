@@ -1,6 +1,6 @@
-const FocalPointMaskTemplate = document.createElement('template');
+const Template = document.createElement('template');
 
-FocalPointMaskTemplate.innerHTML = `
+Template.innerHTML = `
   <style>
     :host {
       position: relative;
@@ -20,4 +20,4 @@ FocalPointMaskTemplate.innerHTML = `
   <slot></slot>
 `;
 
-export default FocalPointMaskTemplate;
+export default Template;

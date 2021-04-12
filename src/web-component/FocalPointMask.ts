@@ -1,10 +1,10 @@
-import FocalPointMaskTemplate from './FocalPointMaskTemplate';
+import Template from './Template';
 import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
 import type { MediaElement } from '../types/MediaElement';
+import type { FocalPoint } from '../types/FocalPoint';
 
 type ObservedAttribute = 'focalpoint';
-type FocalPoint = [top: number, left: number];
 
 class FocalPointMask extends HTMLElement {
   public media: MediaElement | null;
@@ -14,7 +14,7 @@ class FocalPointMask extends HTMLElement {
   constructor () {
     super();
     this.attachShadow({ mode: 'open' });
-    const content = FocalPointMaskTemplate.content.cloneNode(true);
+    const content = Template.content.cloneNode(true);
     this.shadowRoot?.appendChild(content);
   }
 

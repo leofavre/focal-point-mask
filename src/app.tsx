@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import FocalPointMask from './web-component/FocalPointMask';
+import FocalPointMaskReact from './react/FocalPointMask';
 
 declare global {
   export namespace JSX {
@@ -23,6 +24,10 @@ const App = () => {
 
   return (
     <>
+      <FocalPointMaskReact style={{ width: 500, height: 500 }}>
+        <img src="https://picsum.photos/id/1012/3973/2639"/>
+      </FocalPointMaskReact>
+
       <focal-point-mask focalpoint="44,75">
         <img src="https://picsum.photos/id/1012/3973/2639"/>
       </focal-point-mask>
