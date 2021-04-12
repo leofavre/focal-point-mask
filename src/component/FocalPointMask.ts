@@ -16,7 +16,8 @@ class FocalPointMask extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     const content = Template.content.cloneNode(true);
-    this.shadowRoot?.appendChild(content);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.shadowRoot!.appendChild(content);
   }
 
   connectedCallback (): void {
