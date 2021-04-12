@@ -6,11 +6,13 @@ import type { FocalPoint } from '../types/FocalPoint';
 
 interface FocalPointMaskProps extends HTMLAttributes<HTMLDivElement> {
   focalPoint?: FocalPoint;
+  preloadRatio?: number;
 }
 
 const FocalPointMask = (props: PropsWithChildren<FocalPointMaskProps>) => {
   const {
     focalPoint = [50, 50],
+    preloadRatio,
     children,
     ...restProps
   } = props;
@@ -18,7 +20,8 @@ const FocalPointMask = (props: PropsWithChildren<FocalPointMaskProps>) => {
   const maskElement = useRef<HTMLDivElement>(null);
 
   const [maskRatio, setMaskRatio] = useState<number>();
-  const [mediaRatio, setMediaRatio] = useState<number>();
+  const [mediaRatio, setMediaRatio] =
+    useState<number | undefined>(preloadRatio);
   const [clipSides, setClipSides] = useState<boolean>();
 
   const handleLoad = ({ target }) => {

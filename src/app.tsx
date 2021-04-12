@@ -8,6 +8,7 @@ declare global {
     export interface IntrinsicElements {
       'focal-point-mask': {
         focalpoint?: string;
+        preloadratio?: string;
         children: Element;
       }
     }
@@ -26,6 +27,7 @@ const App = () => {
     <>
       <FocalPointMaskReact
         focalPoint={[44, 75]}
+        preloadRatio={1.5}
         style={{ width: '100%', height: 500, resize: 'both' }}
       >
         <img src="https://picsum.photos/id/1012/3973/2639"/>
@@ -33,6 +35,7 @@ const App = () => {
 
       <FocalPointMaskReact
         focalPoint={[30, 48]}
+        preloadRatio={1.5}
         style={{ width: '100%', height: 500, resize: 'both' }}
       >
         <img src="https://picsum.photos/id/1011/5472/3648"/>
@@ -44,11 +47,11 @@ const App = () => {
         <video src={VIDEO_SRC}></video>
       </FocalPointMaskReact>
 
-      <focal-point-mask focalpoint="44,75">
+      <focal-point-mask focalpoint="44,75" preloadratio="1.5">
         <img src="https://picsum.photos/id/1012/3973/2639"/>
       </focal-point-mask>
 
-      <focal-point-mask focalpoint="30,48">
+      <focal-point-mask focalpoint="30,48" preloadratio="1.5">
         <img src="https://picsum.photos/id/1011/5472/3648"/>
       </focal-point-mask>
 

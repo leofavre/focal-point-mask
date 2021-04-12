@@ -7,9 +7,10 @@ import type { FocalPoint } from '../types/FocalPoint';
 type ObservedAttribute = 'focalpoint';
 
 class FocalPointMask extends HTMLElement {
-  public media: MediaElement | null;
-  private _mutationObserver: MutationObserver;
-  private _resizeObserver: ResizeObserver;
+  public preloadRatio?: number;
+  private media: MediaElement | null;
+  private mutationObserver: MutationObserver;
+  private resizeObserver: ResizeObserver;
 
   constructor () {
     super();
@@ -22,16 +23,16 @@ class FocalPointMask extends HTMLElement {
     this.detectMedia();
 
     const options = { childList: true, subtree: true };
-    this._mutationObserver = new MutationObserver(() => this.detectMedia());
-    this._mutationObserver.observe(this, options);
+    this.mutationObserver = new MutationObserver(() => this.detectMedia());
+    this.mutationObserver.observe(this, options);
 
-    this._resizeObserver = new ResizeObserver(() => this.handleResize());
-    this._resizeObserver.observe(this);
+    this.resizeObserver = new ResizeObserver(() => this.handleResize());
+    this.resizeObserver.observe(this);
   }
 
   disconnectedCallback (): void {
-    this._mutationObserver && this._mutationObserver.disconnect();
-    this._resizeObserver && this._resizeObserver.disconnect();
+    this.mutationObserver && this.mutationObserver.disconnect();
+    this.resizeObserver && this.resizeObserver.disconnect();
   }
 
   static get observedAttributes (): ObservedAttribute[] {
@@ -47,7 +48,8 @@ class FocalPointMask extends HTMLElement {
   }
 
   get mediaRatio (): number | undefined {
-    return getMediaRatio(this.media);
+    const maybeRatio = this.getAttribute('preloadratio') || this.preloadRatio;
+    return getMediaRatio(this.media) || Number(maybeRatio) || undefined;
   }
 
   get focalPoint (): FocalPoint {
