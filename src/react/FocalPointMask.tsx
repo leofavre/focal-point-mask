@@ -4,9 +4,11 @@ import Wrapper from './Wrapper';
 import getMediaRatio from '../helpers/getMediaRatio';
 import type { FocalPoint } from '../types/FocalPoint';
 
+type MaybeNumber = number | undefined;
+
 interface FocalPointMaskProps extends HTMLAttributes<HTMLDivElement> {
   focalPoint?: FocalPoint;
-  preloadRatio?: number;
+  preloadRatio?: MaybeNumber;
 }
 
 const FocalPointMask = (props: PropsWithChildren<FocalPointMaskProps>) => {
@@ -20,8 +22,7 @@ const FocalPointMask = (props: PropsWithChildren<FocalPointMaskProps>) => {
   const maskElement = useRef<HTMLDivElement>(null);
 
   const [maskRatio, setMaskRatio] = useState<number>();
-  const [mediaRatio, setMediaRatio] =
-    useState<number | undefined>(preloadRatio);
+  const [mediaRatio, setMediaRatio] = useState<MaybeNumber>(preloadRatio);
   const [clipSides, setClipSides] = useState<boolean>();
 
   const handleLoad = ({ target }) => {
