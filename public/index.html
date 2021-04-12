@@ -10,7 +10,21 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <focal-point-mask focalpoint="44,75" preloadratio="1.5">
+    <img src="https://picsum.photos/id/1012/3973/2639"/>
+  </focal-point-mask>
+
+  <focal-point-mask focalpoint="30,48">
+    <picture>
+      <source srcSet="https://picsum.photos/id/1011/5472/3648"/>
+      <img src="https://picsum.photos/id/1011/5472/3648"/>
+    </picture>
+  </focal-point-mask>
+
+  <focal-point-mask>
+    <video src="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4"></video>
+  </focal-point-mask>
+
   <script type="module" src="./app.js"></script>
 </body>
 
