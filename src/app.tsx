@@ -24,8 +24,24 @@ const App = () => {
 
   return (
     <>
-      <FocalPointMaskReact style={{ width: 500, height: 500 }}>
+      <FocalPointMaskReact
+        focalPoint={[44, 75]}
+        style={{ width: '100%', height: 500, resize: 'both' }}
+      >
         <img src="https://picsum.photos/id/1012/3973/2639"/>
+      </FocalPointMaskReact>
+
+      <FocalPointMaskReact
+        focalPoint={[30, 48]}
+        style={{ width: '100%', height: 500, resize: 'both' }}
+      >
+        <img src="https://picsum.photos/id/1011/5472/3648"/>
+      </FocalPointMaskReact>
+
+      <FocalPointMaskReact
+        style={{ width: '100%', height: 500, resize: 'both' }}
+      >
+        <video src={VIDEO_SRC}></video>
       </FocalPointMaskReact>
 
       <focal-point-mask focalpoint="44,75">

@@ -1,17 +1,59 @@
-import React, { PropsWithChildren, HTMLAttributes } from 'react';
+import React, { useState, useRef, useLayoutEffect, PropsWithChildren, HTMLAttributes } from 'react';
+import useResizeObserver from '@react-hook/resize-observer';
 import Wrapper from './Wrapper';
+import getMediaRatio from '../helpers/getMediaRatio';
 import type { FocalPoint } from '../types/FocalPoint';
 
-interface FocalPointMaskProps extends HTMLAttributes<HTMLElement> {
+interface FocalPointMaskProps extends HTMLAttributes<HTMLDivElement> {
   focalPoint?: FocalPoint;
 }
 
 const FocalPointMask = (props: PropsWithChildren<FocalPointMaskProps>) => {
-  const { focalPoint = [50, 50], children, ...restProps } = props;
+  const {
+    focalPoint = [50, 50],
+    children,
+    ...restProps
+  } = props;
 
-  return <Wrapper focalPoint={focalPoint} {...restProps}>
-    {children}
-  </Wrapper>;
+  const maskElement = useRef<HTMLDivElement>(null);
+
+  const [maskRatio, setMaskRatio] = useState<number>();
+  const [mediaRatio, setMediaRatio] = useState<number>();
+  const [clipSides, setClipSides] = useState<boolean>();
+
+  const handleLoad = ({ target }) => {
+    setMediaRatio(getMediaRatio(target));
+  };
+
+  const handleLoadedMetadata = ({ target }) => {
+    setMediaRatio(getMediaRatio(target));
+  };
+
+  useLayoutEffect(() => {
+    if (maskRatio != null && mediaRatio != null) {
+      setClipSides(maskRatio > mediaRatio);
+    }
+  }, [maskRatio, mediaRatio]);
+
+  useResizeObserver(maskElement, () => {
+    const { offsetWidth, offsetHeight } = maskElement.current ?? {};
+    if (offsetWidth != null && offsetHeight != null) {
+      setMaskRatio(offsetWidth / offsetHeight);
+    }
+  });
+
+  return (
+    <Wrapper
+      ref={maskElement}
+      onLoad={handleLoad}
+      onLoadedMetadata={handleLoadedMetadata}
+      focalPoint={focalPoint}
+      clipSides={Boolean(clipSides)}
+      {...restProps}
+    >
+      {children}
+    </Wrapper>
+  );
 };
 
 export default FocalPointMask;

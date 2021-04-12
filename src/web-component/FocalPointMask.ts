@@ -70,11 +70,11 @@ class FocalPointMask extends HTMLElement {
 
   handleResize (): void {
     if (this.media != null && this.mediaRatio != null) {
+      const clipSides = this.maskRatio > this.mediaRatio;
       const [top, left] = this.focalPoint;
-      const clippedSides = this.maskRatio > this.mediaRatio;
 
-      this.media.style.width = clippedSides ? '100%' : 'auto';
-      this.media.style.height = clippedSides ? 'auto' : '100%';
+      this.media.style.width = clipSides ? '100%' : 'auto';
+      this.media.style.height = clipSides ? 'auto' : '100%';
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
       this.media.style.transform = `translate(-${left}%, -${top}%)`;
