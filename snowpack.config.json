@@ -4,6 +4,7 @@
     "src": "/"
   },
   "devOptions": {
-    "out": "temp"
+    "out": "temp",
+    "open": "none"
   }
 }
