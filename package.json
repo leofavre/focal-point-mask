@@ -10,7 +10,7 @@
     "start-storybook": "start-storybook -s ./public -p 6006",
     "start": "snowpack dev --port 8080",
     "test": "jest --coverage",
-    "test-types": "tsc --noEmit"
+    "test-typescript": "tsc --noEmit"
   },
   "author": "Leonardo Favre <leo@leofavre.com> (https://www.leofavre.com/)",
   "license": "MIT",
