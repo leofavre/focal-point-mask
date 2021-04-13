@@ -1,17 +1,23 @@
+export const TOP = 0;
+export const BOTTOM = 100;
+export const LEFT = 0;
+export const RIGHT = 100;
+export const CENTER = 50;
+
 const HORIZONTAL_KEYWORD_MAP = {
-  top: 0,
-  bottom: 1
+  top: TOP,
+  bottom: BOTTOM
 };
 
 const VERTICAL_KEYWORD_MAP = {
-  left: 0,
-  right: 1
+  left: LEFT,
+  right: RIGHT
 };
 
 const KEYWORD_MAP = {
   ...HORIZONTAL_KEYWORD_MAP,
   ...VERTICAL_KEYWORD_MAP,
-  center: 0.5
+  center: CENTER
 };
 
 const HORIZONTAL_KEYWORDS = Object.keys(HORIZONTAL_KEYWORD_MAP);
@@ -65,11 +71,11 @@ const parsePosition: ParsePosition = (position = '') => {
     (positionB == null || positionB.endsWith('%'));
 
   if (isUsingPercentages) {
-    const percentageA = Number(positionA.slice(0, -1)) / 100;
+    const percentageA = Number(positionA.slice(0, -1));
 
     const percentageB = positionB != null
-      ? Number(positionB.slice(0, -1)) / 100
-      : 0.5;
+      ? Number(positionB.slice(0, -1))
+      : CENTER;
 
     if (!Number.isNaN(percentageA) && !Number.isNaN(percentageB)) {
       return [percentageA, percentageB];

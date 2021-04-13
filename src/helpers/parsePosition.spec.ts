@@ -3,23 +3,23 @@ import parsePosition from './parsePosition';
 describe('parsePosition', () => {
   describe('single keyword', () => {
     it('should correctly parse top', () => {
-      expect(parsePosition('top')).toStrictEqual([0, 0.5]);
+      expect(parsePosition('top')).toStrictEqual([0, 50]);
     });
 
     it('should correctly parse bottom', () => {
-      expect(parsePosition('bottom')).toStrictEqual([1, 0.5]);
+      expect(parsePosition('bottom')).toStrictEqual([100, 50]);
     });
 
     it('should correctly parse left', () => {
-      expect(parsePosition('left')).toStrictEqual([0.5, 0]);
+      expect(parsePosition('left')).toStrictEqual([50, 0]);
     });
 
     it('should correctly parse right', () => {
-      expect(parsePosition('right')).toStrictEqual([0.5, 1]);
+      expect(parsePosition('right')).toStrictEqual([50, 100]);
     });
 
     it('should correctly parse center', () => {
-      expect(parsePosition('center')).toStrictEqual([0.5, 0.5]);
+      expect(parsePosition('center')).toStrictEqual([50, 50]);
     });
   });
 
@@ -29,35 +29,35 @@ describe('parsePosition', () => {
     });
 
     it('should correctly parse top center', () => {
-      expect(parsePosition('top center')).toStrictEqual([0, 0.5]);
+      expect(parsePosition('top center')).toStrictEqual([0, 50]);
     });
 
     it('should correctly parse top right', () => {
-      expect(parsePosition('top right')).toStrictEqual([0, 1]);
+      expect(parsePosition('top right')).toStrictEqual([0, 100]);
     });
 
     it('should correctly parse center left', () => {
-      expect(parsePosition('center left')).toStrictEqual([0.5, 0]);
+      expect(parsePosition('center left')).toStrictEqual([50, 0]);
     });
 
     it('should correctly parse center center', () => {
-      expect(parsePosition('center center')).toStrictEqual([0.5, 0.5]);
+      expect(parsePosition('center center')).toStrictEqual([50, 50]);
     });
 
     it('should correctly parse center right', () => {
-      expect(parsePosition('center right')).toStrictEqual([0.5, 1]);
+      expect(parsePosition('center right')).toStrictEqual([50, 100]);
     });
 
     it('should correctly parse bottom left', () => {
-      expect(parsePosition('bottom left')).toStrictEqual([1, 0]);
+      expect(parsePosition('bottom left')).toStrictEqual([100, 0]);
     });
 
     it('should correctly parse bottom center', () => {
-      expect(parsePosition('bottom center')).toStrictEqual([1, 0.5]);
+      expect(parsePosition('bottom center')).toStrictEqual([100, 50]);
     });
 
     it('should correctly parse bottom right', () => {
-      expect(parsePosition('bottom right')).toStrictEqual([1, 1]);
+      expect(parsePosition('bottom right')).toStrictEqual([100, 100]);
     });
   });
 
@@ -67,35 +67,35 @@ describe('parsePosition', () => {
     });
 
     it('should correctly parse center top', () => {
-      expect(parsePosition('center top')).toStrictEqual([0, 0.5]);
+      expect(parsePosition('center top')).toStrictEqual([0, 50]);
     });
 
     it('should correctly parse right top', () => {
-      expect(parsePosition('right top')).toStrictEqual([0, 1]);
+      expect(parsePosition('right top')).toStrictEqual([0, 100]);
     });
 
     it('should correctly parse left center', () => {
-      expect(parsePosition('left center')).toStrictEqual([0.5, 0]);
+      expect(parsePosition('left center')).toStrictEqual([50, 0]);
     });
 
     it('should correctly parse center center', () => {
-      expect(parsePosition('center center')).toStrictEqual([0.5, 0.5]);
+      expect(parsePosition('center center')).toStrictEqual([50, 50]);
     });
 
     it('should correctly parse right center', () => {
-      expect(parsePosition('right center')).toStrictEqual([0.5, 1]);
+      expect(parsePosition('right center')).toStrictEqual([50, 100]);
     });
 
     it('should correctly parse left bottom', () => {
-      expect(parsePosition('left bottom')).toStrictEqual([1, 0]);
+      expect(parsePosition('left bottom')).toStrictEqual([100, 0]);
     });
 
     it('should correctly parse center bottom', () => {
-      expect(parsePosition('center bottom')).toStrictEqual([1, 0.5]);
+      expect(parsePosition('center bottom')).toStrictEqual([100, 50]);
     });
 
     it('should correctly parse right bottom', () => {
-      expect(parsePosition('right bottom')).toStrictEqual([1, 1]);
+      expect(parsePosition('right bottom')).toStrictEqual([100, 100]);
     });
   });
 
@@ -117,7 +117,7 @@ describe('parsePosition', () => {
     });
 
     it('should correctly parse center center', () => {
-      expect(parsePosition('center center')).toStrictEqual([0.5, 0.5]);
+      expect(parsePosition('center center')).toStrictEqual([50, 50]);
     });
   });
 
@@ -141,7 +141,7 @@ describe('parsePosition', () => {
 
   describe('single percentage', () => {
     it('should correctly parse 75%', () => {
-      expect(parsePosition('75%')).toStrictEqual([0.75, 0.5]);
+      expect(parsePosition('75%')).toStrictEqual([75, 50]);
     });
   });
 
@@ -151,17 +151,17 @@ describe('parsePosition', () => {
     });
 
     it('should correctly parse 25% 75%', () => {
-      expect(parsePosition('25% 75%')).toStrictEqual([0.25, 0.75]);
+      expect(parsePosition('25% 75%')).toStrictEqual([25, 75]);
     });
 
     it('should correctly parse 75% -10%', () => {
-      expect(parsePosition('75% -10%')).toStrictEqual([0.75, -0.1]);
+      expect(parsePosition('75% -10%')).toStrictEqual([75, -10]);
     });
   });
 
   describe('unexpected values', () => {
     it('should correctly parse percentages with too many spaces', () => {
-      expect(parsePosition(' 10%   20% ')).toStrictEqual([0.1, 0.2]);
+      expect(parsePosition(' 10%   20% ')).toStrictEqual([10, 20]);
     });
 
     it('should correctly parse keywords with too many spaces', () => {
