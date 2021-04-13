@@ -98,8 +98,7 @@ class FocalPointMask extends HTMLElement {
       this.media.style.height = clipSides ? 'auto' : '100%';
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
-      this.media.style.transform = `translate(-${left}%, -${top}%)`;
-      this.media.style.aspectRatio = `${this.parsedMediaRatio}/1`;
+      this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
     }
   }
 }
