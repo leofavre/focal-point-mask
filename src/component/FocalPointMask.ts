@@ -2,15 +2,15 @@ import ResizeObserverPolyfill from 'resize-observer-polyfill';
 import Template from './Template';
 import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
+import parseAspectRatio from '../helpers/parseAspectRatio';
 import type { MediaElement } from '../types/MediaElement';
 import type { FocalPoint } from '../types/FocalPoint';
 
-type ObservedAttribute = 'focalpoint';
+type ObservedAttribute = 'focalpoint' | 'mediaratio';
 
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
-  public preloadRatio?: number;
   private media: MediaElement | null;
   private mutationObserver: MutationObserver;
   private resizeObserver: ResizeObserver;
@@ -40,7 +40,7 @@ class FocalPointMask extends HTMLElement {
   }
 
   static get observedAttributes (): ObservedAttribute[] {
-    return ['focalpoint'];
+    return ['focalpoint', 'mediaratio'];
   }
 
   attributeChangedCallback (): void {
@@ -49,11 +49,6 @@ class FocalPointMask extends HTMLElement {
 
   get maskRatio (): number {
     return this.offsetWidth / this.offsetHeight;
-  }
-
-  get mediaRatio (): number | undefined {
-    const maybeRatio = this.getAttribute('preloadratio') || this.preloadRatio;
-    return getMediaRatio(this.media) || Number(maybeRatio) || undefined;
   }
 
   get focalPoint (): FocalPoint {
@@ -65,18 +60,36 @@ class FocalPointMask extends HTMLElement {
     this.setAttribute('focalpoint', `${top},${left}`);
   }
 
+  get mediaRatio (): string | undefined {
+    return this.getAttribute('mediaratio') || undefined;
+  }
+
+  set mediaRatio (ratio: string | undefined) {
+    if (ratio != null) {
+      this.setAttribute('mediaratio', ratio);
+    } else {
+      this.removeAttribute('mediaratio');
+    }
+  }
+
+  get parsedMediaRatio (): number | undefined {
+    return parseAspectRatio(this.mediaRatio) ||
+      getMediaRatio(this.media) ||
+      undefined;
+  }
+
   detectMedia (): void {
     this.media = this.querySelector('img, video');
     this.handleResize();
 
-    if (this.media != null && this.mediaRatio == null) {
+    if (this.media != null && this.parsedMediaRatio == null) {
       onMediaLoaded(this.media, () => this.detectMedia());
     }
   }
 
   handleResize (): void {
-    if (this.media != null && this.mediaRatio != null) {
-      const clipSides = this.maskRatio > this.mediaRatio;
+    if (this.media != null && this.parsedMediaRatio != null) {
+      const clipSides = this.maskRatio > this.parsedMediaRatio;
       const [top, left] = this.focalPoint;
 
       this.media.style.position = 'absolute';
@@ -86,6 +99,7 @@ class FocalPointMask extends HTMLElement {
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
       this.media.style.transform = `translate(-${left}%, -${top}%)`;
+      this.media.style.aspectRatio = `${this.parsedMediaRatio}/1`;
     }
   }
 }
