@@ -7,6 +7,7 @@
     "start": "snowpack dev --port 8080",
     "build": "tsc",
     "test": "jest --coverage",
+    "send-coverage": "cat ./coverage/lcov.info | coveralls",
     "typecheck": "tsc --noEmit",
     "prepublish": "rimraf dist && npm run build"
   },

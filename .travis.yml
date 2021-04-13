@@ -1,0 +1,17 @@
+language: node_js
+notifications:
+  email: false
+node_js: 14
+jobs:
+  include:
+  - name: Unit Tests
+    if: branch != master
+    script:
+    - npm run test
+
+  - name: Unit Tests with Coverage
+    if: branch = master
+    script:
+    - npm run test
+    after_success:
+    - npm run send-coverage
