@@ -21,7 +21,7 @@ export default {
         'value will be set to *center*.',
       table: {
         type: { summary: 'string' },
-        defaultValue: { summary: 'center center' }
+        defaultValue: { summary: 'center' }
       },
       control: {
         type: 'text'
@@ -54,33 +54,75 @@ interface Props {
 
 const baseElement = document.createElement('focal-point-mask');
 
-const withDefault = baseElement.cloneNode() as FocalPointMask;
+// Image
 
-export const Default = (props: Props): FocalPointMask => {
+const withImage = baseElement.cloneNode() as FocalPointMask;
+
+export const Image = (props: Props): FocalPointMask => {
   Object.entries(props).forEach(([key, value]) => {
-    withDefault.setAttribute(key, value);
+    withImage.setAttribute(key, value);
   });
 
-  if (withDefault.childElementCount === 0) {
-    withDefault.innerHTML = `
+  if (withImage.childElementCount === 0) {
+    withImage.innerHTML = `
       <img src="https://picsum.photos/id/1012/3840/2160">
     `;
   }
 
-  return withDefault;
+  return withImage;
 };
 
-Default.args = {
+Image.args = {
   focalPoint: '35% 75%',
   mediaRatio: '16/9'
 };
 
-Default.parameters = {
+Image.parameters = {
   docs: {
     source: {
       code: '' +
-        '<focal-point-mask focalPoint="25% 75%" mediaRatio="16/9">\n' +
+        '<focal-point-mask focalPoint="35% 75%" mediaRatio="16/9">\n' +
         '  <img src="https://picsum.photos/id/1012/3840/2160">\n' +
+        '</focal-point-mask>'
+    }
+  }
+};
+
+// Video
+
+const withVideo = baseElement.cloneNode() as FocalPointMask;
+const VIDEO_SRC = 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4';
+
+export const Video = (props: Props): FocalPointMask => {
+  Object.entries(props).forEach(([key, value]) => {
+    withVideo.setAttribute(key, value);
+  });
+  if (withVideo.childElementCount === 0) {
+    withVideo.innerHTML = `
+      <video autoplay muted loop>
+        <source src="${VIDEO_SRC}"></source>
+      </video>
+    `;
+  }
+
+  (withVideo.children[0] as HTMLVideoElement).play();
+
+  return withVideo;
+};
+
+Video.args = {
+  focalPoint: 'center',
+  mediaRatio: '16/9'
+};
+
+Video.parameters = {
+  docs: {
+    source: {
+      code: '' +
+        `<focal-point-mask focalPoint="${Video.args.focalPoint}" mediaRatio="${Video.args.mediaRatio}">\n` +
+        '  <video autoplay muted loop>\n' +
+        `    <source src="${VIDEO_SRC}"></source>\n` +
+        '  </video>\n' +
         '</focal-point-mask>'
     }
   }
