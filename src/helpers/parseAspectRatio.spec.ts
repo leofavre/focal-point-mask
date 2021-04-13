@@ -29,36 +29,52 @@ describe('parseAspectRatio', () => {
     expect(parseAspectRatio('5/2.5')).toBe(5 / 2.5);
   });
 
-  it('should return undefined for 3/-2', () => {
+  it('should correctly parse 1.888/7', () => {
+    expect(parseAspectRatio('1.888/7')).toBe(1.888 / 7);
+  });
+
+  it('should correctly parse 1.888/2.5', () => {
+    expect(parseAspectRatio('1.888/2.5')).toBe(1.888 / 2.5);
+  });
+
+  it('should return undefined given 3/-2', () => {
     expect(parseAspectRatio('3/-2')).toBeUndefined();
   });
 
-  it('should return undefined for -3/2', () => {
+  it('should return undefined given -3/2', () => {
     expect(parseAspectRatio('-3/2')).toBeUndefined();
   });
 
-  it('should return undefined for -3/-2', () => {
+  it('should return undefined given -3/-2', () => {
     expect(parseAspectRatio('-3/-2')).toBeUndefined();
   });
 
-  it('should return undefined for /5', () => {
+  it('should return undefined given /5', () => {
     expect(parseAspectRatio('/5')).toBeUndefined();
   });
 
-  it('should return undefined for 2/0', () => {
+  it('should return undefined given 2/0', () => {
     expect(parseAspectRatio('2/0')).toBeUndefined();
   });
 
-  it('should return undefined for 2/-0', () => {
+  it('should return undefined given 2/-0', () => {
     expect(parseAspectRatio('2/-0')).toBeUndefined();
   });
 
-  it('should return undefined for 0/2', () => {
+  it('should return undefined given 0/2', () => {
     expect(parseAspectRatio('0/2')).toBeUndefined();
   });
 
-  it('should return undefined for 0', () => {
+  it('should return undefined given 0', () => {
     expect(parseAspectRatio('0')).toBeUndefined();
+  });
+
+  it('should return undefined given a non-numeric value', () => {
+    expect(parseAspectRatio('bogus')).toBeUndefined();
+  });
+
+  it('should return undefined given a non-numeric value with a slash', () => {
+    expect(parseAspectRatio('bog/us')).toBeUndefined();
   });
 
   it('should return undefined if empty', () => {
