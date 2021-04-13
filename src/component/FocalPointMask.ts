@@ -12,8 +12,6 @@ declare global {
   }
 }
 
-type ObservedAttribute = 'focalpoint' | 'mediaratio';
-
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
@@ -45,8 +43,8 @@ class FocalPointMask extends HTMLElement {
     this.resizeObserver && this.resizeObserver.disconnect();
   }
 
-  static get observedAttributes (): ObservedAttribute[] {
-    return ['focalpoint', 'mediaratio'];
+  static get observedAttributes (): string[] {
+    return ['focalpoint', 'mediaratio', 'mediaminwidth', 'mediaminheight'];
   }
 
   attributeChangedCallback (): void {
@@ -91,6 +89,30 @@ class FocalPointMask extends HTMLElement {
       undefined;
   }
 
+  get mediaMinWidth (): number | undefined {
+    return Number(this.getAttribute('mediaminwidth')) || undefined;
+  }
+
+  set mediaMinWidth (value: number | undefined) {
+    if (value != null) {
+      this.setAttribute('mediaminwidth', String(value));
+    } else {
+      this.removeAttribute('mediaminwidth');
+    }
+  }
+
+  get mediaMinHeight (): number | undefined {
+    return Number(this.getAttribute('mediaminheight')) || undefined;
+  }
+
+  set mediaMinHeight (value: number | undefined) {
+    if (value != null) {
+      this.setAttribute('mediaminheight', String(value));
+    } else {
+      this.removeAttribute('mediaminheight');
+    }
+  }
+
   detectMedia (): void {
     this.media = this.querySelector('img, video');
     this.handleResize();
@@ -102,22 +124,33 @@ class FocalPointMask extends HTMLElement {
 
   handleResize (): void {
     if (this.media != null && this.parsedMediaRatio != null) {
-      const clipSides = this.maskRatio > this.parsedMediaRatio;
+      const clipSides = this.maskRatio < this.parsedMediaRatio;
+      const keepUserRatio = this.parsedMediaRatio !== getMediaRatio(this.media);
       const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
+
+      const minWidth = Math.max(
+        this.mediaMinWidth || 0,
+        (this.mediaMinHeight || 0) * this.parsedMediaRatio
+      );
+
+      const minHeight = Math.max(
+        (this.mediaMinWidth || 0) / this.parsedMediaRatio,
+        this.mediaMinHeight || 0
+      );
 
       this.media.style.position = 'absolute';
       this.media.style.display = 'block';
-      this.media.style.width = clipSides ? '100%' : 'auto';
-      this.media.style.height = clipSides ? 'auto' : '100%';
+      this.media.style.width = clipSides ? 'auto' : '100%';
+      this.media.style.minWidth = `${minWidth}px` || '';
+      this.media.style.height = clipSides ? '100%' : 'auto';
+      this.media.style.minHeight = `${minHeight}px` || '';
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
       this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
 
-      if (this.parsedMediaRatio !== getMediaRatio(this.media)) {
-        this.media.style.aspectRatio = `${this.parsedMediaRatio}/1`;
-      } else {
-        this.media.style.aspectRatio = '';
-      }
+      this.media.style.aspectRatio = keepUserRatio
+        ? `${this.parsedMediaRatio}/1`
+        : '';
     }
   }
 }
