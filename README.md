@@ -1,3 +1,3 @@
-# Focal Point Mask
+# Focal Point Mask Web Component
 
-Mask for images and videos with a focal point.
+A responsive mask web component that dynamically crops images and videos preserving a focal point.
