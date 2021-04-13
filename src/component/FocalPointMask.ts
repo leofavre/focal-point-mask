@@ -3,8 +3,8 @@ import Template from './Template';
 import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
 import parseAspectRatio from '../helpers/parseAspectRatio';
+import parsePosition, { CENTER } from '../helpers/parsePosition';
 import type { MediaElement } from '../types/MediaElement';
-import type { FocalPoint } from '../types/FocalPoint';
 
 type ObservedAttribute = 'focalpoint' | 'mediaratio';
 
@@ -51,22 +51,29 @@ class FocalPointMask extends HTMLElement {
     return this.offsetWidth / this.offsetHeight;
   }
 
-  get focalPoint (): FocalPoint {
-    const initialValue = '50,50';
-    return JSON.parse(`[${this.getAttribute('focalpoint') || initialValue}]`);
+  get focalPoint (): string | undefined {
+    return this.getAttribute('focalpoint') || undefined;
   }
 
-  set focalPoint ([top, left]: FocalPoint) {
-    this.setAttribute('focalpoint', `${top},${left}`);
+  set focalPoint (value: string | undefined) {
+    if (value != null) {
+      this.setAttribute('focalpoint', value);
+    } else {
+      this.removeAttribute('focalpoint');
+    }
+  }
+
+  get parsedFocalPoint (): number[] | undefined {
+    return parsePosition(this.focalPoint);
   }
 
   get mediaRatio (): string | undefined {
     return this.getAttribute('mediaratio') || undefined;
   }
 
-  set mediaRatio (ratio: string | undefined) {
-    if (ratio != null) {
-      this.setAttribute('mediaratio', ratio);
+  set mediaRatio (value: string | undefined) {
+    if (value != null) {
+      this.setAttribute('mediaratio', value);
     } else {
       this.removeAttribute('mediaratio');
     }
@@ -90,7 +97,7 @@ class FocalPointMask extends HTMLElement {
   handleResize (): void {
     if (this.media != null && this.parsedMediaRatio != null) {
       const clipSides = this.maskRatio > this.parsedMediaRatio;
-      const [top, left] = this.focalPoint;
+      const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
 
       this.media.style.position = 'absolute';
       this.media.style.display = 'block';
