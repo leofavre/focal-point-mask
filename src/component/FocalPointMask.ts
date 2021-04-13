@@ -3,8 +3,11 @@ import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
 import type { MediaElement } from '../types/MediaElement';
 import type { FocalPoint } from '../types/FocalPoint';
+import ResizeObserverPolyfill from 'resize-observer-polyfill';
 
 type ObservedAttribute = 'focalpoint';
+
+const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
   public preloadRatio?: number;
