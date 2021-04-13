@@ -69,6 +69,10 @@ describe('parseAspectRatio', () => {
     expect(parseAspectRatio('0')).toBeUndefined();
   });
 
+  it('should return undefined given 16/9/1', () => {
+    expect(parseAspectRatio('16/9/1')).toBeUndefined();
+  });
+
   it('should return undefined given a non-numeric value', () => {
     expect(parseAspectRatio('bogus')).toBeUndefined();
   });
@@ -77,7 +81,7 @@ describe('parseAspectRatio', () => {
     expect(parseAspectRatio('bog/us')).toBeUndefined();
   });
 
-  it('should return undefined if empty', () => {
+  it('should return undefined without parameters', () => {
     expect(parseAspectRatio()).toBeUndefined();
   });
 });

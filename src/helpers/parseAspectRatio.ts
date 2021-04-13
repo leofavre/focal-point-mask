@@ -7,7 +7,13 @@ const parseAspectRatio: ParseAspectRatio = (aspectRatio = '') => {
     return undefined;
   }
 
-  const [maybeWidth, maybeHeight] = aspectRatio.split('/').map(Number);
+  const [maybeWidth, maybeHeight, ...rest] = aspectRatio
+    .split('/')
+    .map(Number);
+
+  if (rest.length > 0) {
+    return undefined;
+  }
 
   if (maybeWidth === 0 || maybeHeight === 0) {
     return undefined;
