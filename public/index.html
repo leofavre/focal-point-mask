@@ -10,19 +10,14 @@
 </head>
 
 <body>
-  <focal-point-mask focalpoint="44,75" mediaratio="3973/2639">
-    <img src="https://picsum.photos/id/1012/3973/2639"/>
+  <focal-point-mask focalPoint="35% 75%" mediaRatio="16/9">
+    <img src="https://picsum.photos/id/1012/3840/2160">
   </focal-point-mask>
 
-  <focal-point-mask focalpoint="30,48">
-    <picture>
-      <source srcSet="https://picsum.photos/id/1011/5472/3648"/>
-      <img src="https://picsum.photos/id/1011/5472/3648"/>
-    </picture>
-  </focal-point-mask>
-
-  <focal-point-mask>
-    <video src="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4"></video>
+  <focal-point-mask focalPoint="center" mediaRatio="16/9">
+    <video autoplay muted loop>
+      <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4">
+    </video>
   </focal-point-mask>
 
   <script type="module" src="./app.js"></script>
