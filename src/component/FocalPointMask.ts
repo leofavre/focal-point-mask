@@ -6,6 +6,12 @@ import parseAspectRatio from '../helpers/parseAspectRatio';
 import parsePosition, { CENTER } from '../helpers/parsePosition';
 import type { MediaElement } from '../types/MediaElement';
 
+declare global {
+  interface CSSStyleDeclaration {
+    aspectRatio: string;
+  }
+}
+
 type ObservedAttribute = 'focalpoint' | 'mediaratio';
 
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
@@ -106,6 +112,12 @@ class FocalPointMask extends HTMLElement {
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
       this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
+
+      if (this.parsedMediaRatio !== getMediaRatio(this.media)) {
+        this.media.style.aspectRatio = `${this.parsedMediaRatio}/1`;
+      } else {
+        this.media.style.aspectRatio = '';
+      }
     }
   }
 }
