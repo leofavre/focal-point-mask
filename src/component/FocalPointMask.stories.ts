@@ -14,10 +14,10 @@ export default {
         'the media is cropped.**\n\n' +
         'Similarly to **background-position** in CSS, it expects ' +
         'a pair of position keywords ' +
-        '(*top*, *bottom*, *left*, *right* and *center*) or percentages ' +
-        'representing the distance from the top left corner ' +
+        '(*top*, *bottom*, *left*, *right* and *center*) or percentage ' +
+        'values representing the distance from the top left corner ' +
         'to the focal point.\n\n' +
-        'If a single keyword or percentage is passed, the second ' +
+        'If a single keyword or percentage value is passed, the second ' +
         'value will be set to *center*.',
       table: {
         type: { summary: 'string' },
@@ -57,6 +57,7 @@ const baseElement = document.createElement('focal-point-mask');
 // Image
 
 const withImage = baseElement.cloneNode() as FocalPointMask;
+const IMG_SRC = 'https://picsum.photos/id/1012/3840/2160';
 
 export const Image = (props: Props): FocalPointMask => {
   Object.entries(props).forEach(([key, value]) => {
@@ -65,7 +66,7 @@ export const Image = (props: Props): FocalPointMask => {
 
   if (withImage.childElementCount === 0) {
     withImage.innerHTML = `
-      <img src="https://picsum.photos/id/1012/3840/2160">
+      <img src="${IMG_SRC}">
     `;
   }
 
@@ -81,8 +82,8 @@ Image.parameters = {
   docs: {
     source: {
       code: '' +
-        '<focal-point-mask focalPoint="35% 75%" mediaRatio="16/9">\n' +
-        '  <img src="https://picsum.photos/id/1012/3840/2160">\n' +
+        `<focal-point-mask focalPoint="${Image.args.focalPoint}" mediaRatio="${Image.args.mediaRatio}">\n` +
+        `  <img src="${IMG_SRC}">\n` +
         '</focal-point-mask>'
     }
   }
@@ -100,7 +101,7 @@ export const Video = (props: Props): FocalPointMask => {
   if (withVideo.childElementCount === 0) {
     withVideo.innerHTML = `
       <video autoplay muted loop>
-        <source src="${VIDEO_SRC}"></source>
+        <source src="${VIDEO_SRC}">
       </video>
     `;
   }
@@ -121,7 +122,7 @@ Video.parameters = {
       code: '' +
         `<focal-point-mask focalPoint="${Video.args.focalPoint}" mediaRatio="${Video.args.mediaRatio}">\n` +
         '  <video autoplay muted loop>\n' +
-        `    <source src="${VIDEO_SRC}"></source>\n` +
+        `    <source src="${VIDEO_SRC}">\n` +
         '  </video>\n' +
         '</focal-point-mask>'
     }

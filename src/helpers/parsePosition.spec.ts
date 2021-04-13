@@ -139,13 +139,13 @@ describe('parsePosition', () => {
     });
   });
 
-  describe('single percentage', () => {
+  describe('single percentage value', () => {
     it('should correctly parse 75%', () => {
       expect(parsePosition('75%')).toStrictEqual([75, 50]);
     });
   });
 
-  describe('percentages pair', () => {
+  describe('percentage values pair', () => {
     it('should correctly parse 0% 0%', () => {
       expect(parsePosition('0% 0%')).toStrictEqual([0, 0]);
     });
@@ -160,7 +160,7 @@ describe('parsePosition', () => {
   });
 
   describe('unexpected values', () => {
-    it('should correctly parse percentages with too many spaces', () => {
+    it('should correctly parse percentage values with too many spaces', () => {
       expect(parsePosition(' 10%   20% ')).toStrictEqual([10, 20]);
     });
 
@@ -172,7 +172,7 @@ describe('parsePosition', () => {
       expect(parsePosition('top 70%')).toBeUndefined();
     });
 
-    it('should return undefined given too many percentages', () => {
+    it('should return undefined given too many percentage values', () => {
       expect(parsePosition('25% 50% 75%')).toBeUndefined();
     });
 
@@ -184,7 +184,7 @@ describe('parsePosition', () => {
       expect(parsePosition('bogus')).toBeUndefined();
     });
 
-    it('should return undefined given an expected percentage', () => {
+    it('should return undefined given an expected percentage value', () => {
       expect(parsePosition('bogus%')).toBeUndefined();
     });
 
