@@ -1,9 +1,7 @@
 focal-point-mask {
-  display: block;
-  margin: auto;
   width: 100%;
   max-width: 100%;
   height: 450px;
+  margin: auto;
   resize: both;
-  overflow: hidden;
 }
