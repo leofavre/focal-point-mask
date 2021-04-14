@@ -112,7 +112,7 @@ class FocalPointMask extends HTMLElement {
 
   handleResize (): void {
     if (this.media != null && this.parsedMediaRatio != null) {
-      const clipSides = this.maskRatio < this.parsedMediaRatio;
+      const cropSides = this.maskRatio < this.parsedMediaRatio;
       const keepUserRatio = this.parsedMediaRatio !== getMediaRatio(this.media);
       const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
 
@@ -128,9 +128,9 @@ class FocalPointMask extends HTMLElement {
 
       this.media.style.position = 'absolute';
       this.media.style.display = 'block';
-      this.media.style.width = clipSides ? 'auto' : '100%';
+      this.media.style.width = cropSides ? 'auto' : '100%';
       this.media.style.minWidth = `${minWidth}px`;
-      this.media.style.height = clipSides ? '100%' : 'auto';
+      this.media.style.height = cropSides ? '100%' : 'auto';
       this.media.style.minHeight = `${minHeight}px`;
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
