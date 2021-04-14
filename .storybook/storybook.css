@@ -1,0 +1,17 @@
+/* hide the last column of the first ArgsTable */
+
+h2 ~ * > .docblock-argstable thead th:nth-last-child(1),
+h2 ~ * > .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
+  display: none;
+}
+
+/* show only the first description paragraph of all other ArgsTables */
+
+h2 ~ h2 ~ * > .docblock-argstable thead th:nth-last-child(1),
+h2 ~ h2 ~ * > .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
+  display: table-cell;
+}
+
+h2 ~ h2 ~ * > .docblock-argstable tbody tr:not([title]) td:nth-child(2) p:nth-child(n + 2) {
+  display: none;
+}

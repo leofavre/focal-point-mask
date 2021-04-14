@@ -1,5 +1,6 @@
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import { argTypes } from '../../docs/argTypes';
 import FocalPointMask from './FocalPointMask';
-import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
 
 export const startWebComponents = () => {
   if (!window.customElements.get('focal-point-mask')) {
@@ -8,65 +9,12 @@ export const startWebComponents = () => {
 }
 startWebComponents();
 
-<Meta
-  title="FocalPointMask"
-  argTypes={{
-    focalPoint: {
-      name: 'focalPoint',
-      description: '' +
-        '**The coordinate of the area that should be preserved when the media is cropped.**\n\n' +
-        'Similarly to **background-position** in CSS, it expects a pair of position keywords (*top*, *bottom*, *left*, *right* and *center*) or percentage values representing the distance from the top left corner to the focal point.\n\n' +
-        'If a single value is passed, the second value is set to *center*.',
-      table: {
-        category: 'Properties',
-        type: { summary: 'string' },
-        defaultValue: { summary: 'center' }
-      }
-    },
-    mediaRatio: {
-      name: 'mediaRatio',
-      description: '' +
-        '**A string representing the media width divided by its height.**\n\n' +
-        'Although the ratio is calculated while the media loads, setting **mediaRatio** can prevent it from resizing during the process.',
-      table: {
-        category: 'Properties',
-        type: { summary: 'string' }
-      }
-    },
-    mediaMinWidth: {
-      name: 'mediaMinWidth',
-      description: '' +
-        '**The media minimum width in pixels.**\n\n' +
-        'Prevents the media width from shrinking beyond a certain point inside the mask.',
-      table: {
-        category: 'Properties',
-        type: { summary: 'number' }
-      }
-    },
-    mediaMinHeight: {
-      name: 'mediaMinHeight',
-      description: '' +
-        '**The media minimum height in pixels.**\n\n' +
-        'Prevents the media height from shrinking beyond a certain point inside the mask.',
-      table: {
-        category: 'Properties',
-        type: { summary: 'number' }
-      }
-    },
-    mediaType: {
-      table:{
-        disable: true
-      }
-    }
-  }}
-/>
-
-export const Template = props => (
+export const TemplateFactory = mediaType => props => (
   <focal-point-mask {...props}>
-    {props.mediaType === 'image' && (
+    {mediaType === 'image' && (
       <img src="https://picsum.photos/id/1012/3840/2160"/>
     )}
-    {props.mediaType === 'video' && (
+    {mediaType === 'video' && (
       <video autoPlay muted loop>
         <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4"/>
       </video>
@@ -74,19 +22,24 @@ export const Template = props => (
   </focal-point-mask>
 );
 
-# Focal Point Mask
+<Meta title="Examples" argTypes={argTypes}/>
 
-## Image
+## API
+
+<ArgsTable className="test" story="image"/>
+
+## Image Example
+
+Drag the bottom right corner of the image to resize it.
 
 <Canvas>
   <Story
-    name="Image"
+    name="image"
     args={{
       focalPoint: '35% 75%',
       mediaRatio: '16/9',
       mediaMinWidth: '700',
-      mediaMinHeight: '',
-      mediaType: 'image'
+      mediaMinHeight: '0'
     }}
     parameters={{
       controls: {
@@ -102,23 +55,24 @@ export const Template = props => (
       }
     }}
   >
-    {Template.bind({})}
+    {TemplateFactory('image').bind({})}
   </Story>
 </Canvas>
 
-<ArgsTable story="Image"/>
+<ArgsTable story="image"/>
 
-## Video
+## Video Example
+
+Drag the bottom right corner of the video to resize it.
 
 <Canvas>
   <Story
-    name="Video"
+    name="video"
     args={{
       focalPoint: 'center',
       mediaRatio: '16/9',
-      mediaMinWidth: '',
-      mediaMinHeight: '',
-      mediaType: 'video'
+      mediaMinWidth: '0',
+      mediaMinHeight: '0'
     }}
     parameters={{
       controls: {
@@ -136,6 +90,8 @@ export const Template = props => (
       }
     }}
   >
-    {Template.bind({})}
+    {TemplateFactory('video').bind({})}
   </Story>
 </Canvas>
+
+<ArgsTable story="video"/>

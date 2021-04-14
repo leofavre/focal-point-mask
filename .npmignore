@@ -2,6 +2,7 @@
 .storybook/
 coverage/
 cypress/
+docs/
 node_modules/
 public/
 src/
