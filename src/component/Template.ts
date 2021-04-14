@@ -6,8 +6,6 @@ Template.innerHTML = `
       position: relative;
       display: block;
       overflow: hidden;
-      width: 100%;
-      height: 100%;
     }
 
     ::slotted(img),
