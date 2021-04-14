@@ -1,5 +1,7 @@
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
 import Template from './Template';
+import getAttr from '../helpers/getAttr';
+import setAttr from '../helpers/setAttr';
 import getMediaRatio from '../helpers/getMediaRatio';
 import onMediaLoaded from '../helpers/onMediaLoaded';
 import parseAspectRatio from '../helpers/parseAspectRatio';
@@ -11,6 +13,8 @@ declare global {
     aspectRatio: string;
   }
 }
+
+type Attr = 'focalpoint' | 'mediaratio' | 'mediaminwidth' | 'mediaminheight';
 
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
@@ -43,7 +47,7 @@ class FocalPointMask extends HTMLElement {
     this.resizeObserver && this.resizeObserver.disconnect();
   }
 
-  static get observedAttributes (): string[] {
+  static get observedAttributes (): Attr[] {
     return ['focalpoint', 'mediaratio', 'mediaminwidth', 'mediaminheight'];
   }
 
@@ -56,15 +60,11 @@ class FocalPointMask extends HTMLElement {
   }
 
   get focalPoint (): string | undefined {
-    return this.getAttribute('focalpoint') || undefined;
+    return getAttr<Attr, string>(this, 'focalpoint', String);
   }
 
   set focalPoint (value: string | undefined) {
-    if (value != null) {
-      this.setAttribute('focalpoint', value);
-    } else {
-      this.removeAttribute('focalpoint');
-    }
+    setAttr<Attr>(this, 'focalpoint', value);
   }
 
   get parsedFocalPoint (): number[] | undefined {
@@ -72,15 +72,11 @@ class FocalPointMask extends HTMLElement {
   }
 
   get mediaRatio (): string | undefined {
-    return this.getAttribute('mediaratio') || undefined;
+    return getAttr<Attr, string>(this, 'mediaratio', String);
   }
 
   set mediaRatio (value: string | undefined) {
-    if (value != null) {
-      this.setAttribute('mediaratio', value);
-    } else {
-      this.removeAttribute('mediaratio');
-    }
+    setAttr<Attr>(this, 'mediaratio', value);
   }
 
   get parsedMediaRatio (): number | undefined {
@@ -90,27 +86,19 @@ class FocalPointMask extends HTMLElement {
   }
 
   get mediaMinWidth (): number | undefined {
-    return Number(this.getAttribute('mediaminwidth')) || undefined;
+    return getAttr<Attr, number>(this, 'mediaminwidth', Number);
   }
 
   set mediaMinWidth (value: number | undefined) {
-    if (value != null) {
-      this.setAttribute('mediaminwidth', String(value));
-    } else {
-      this.removeAttribute('mediaminwidth');
-    }
+    setAttr<Attr>(this, 'mediaminwidth', value);
   }
 
   get mediaMinHeight (): number | undefined {
-    return Number(this.getAttribute('mediaminheight')) || undefined;
+    return getAttr<Attr, number>(this, 'mediaminheight', Number);
   }
 
   set mediaMinHeight (value: number | undefined) {
-    if (value != null) {
-      this.setAttribute('mediaminheight', String(value));
-    } else {
-      this.removeAttribute('mediaminheight');
-    }
+    setAttr<Attr>(this, 'mediaminheight', value);
   }
 
   detectMedia (): void {
@@ -141,9 +129,9 @@ class FocalPointMask extends HTMLElement {
       this.media.style.position = 'absolute';
       this.media.style.display = 'block';
       this.media.style.width = clipSides ? 'auto' : '100%';
-      this.media.style.minWidth = `${minWidth}px` || '';
+      this.media.style.minWidth = `${minWidth}px`;
       this.media.style.height = clipSides ? '100%' : 'auto';
-      this.media.style.minHeight = `${minHeight}px` || '';
+      this.media.style.minHeight = `${minHeight}px`;
       this.media.style.top = `${top}%`;
       this.media.style.left = `${left}%`;
       this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
