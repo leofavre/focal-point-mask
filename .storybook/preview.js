@@ -1,4 +1,4 @@
-import './index.css';
+import '../public/index.css';
 import './storybook.css';
 
 export const parameters = {
