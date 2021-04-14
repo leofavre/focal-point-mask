@@ -1,6 +1,18 @@
 import { Meta, Description } from '@storybook/addon-docs/blocks';
+import { ArgsTable as PureArgsTable } from '@storybook/components';
+import { argTypes } from './argTypes';
 import Readme from '../README.md';
+
+export const noop = () => {};
 
 <Meta title="Introduction"/>
 
 <Description>{Readme}</Description>
+
+## API
+
+<PureArgsTable
+  resetArgs={noop}
+  updateArgs={noop}
+  rows={argTypes}
+/>
