@@ -9,7 +9,7 @@ export const startWebComponents = () => {
 startWebComponents();
 
 <Meta
-  title="Test"
+  title="FocalPointMask"
   argTypes={{
     focalPoint: {
       name: 'focalPoint',
@@ -32,6 +32,26 @@ startWebComponents();
       table: {
         category: 'Properties',
         type: { summary: 'string' }
+      }
+    },
+    mediaMinWidth: {
+      name: 'mediaMinWidth',
+      description: '' +
+        '**The media minimum width in pixels.**\n\n' +
+        'Prevents the media from shrinking beyond a certain point inside the mask.',
+      table: {
+        category: 'Properties',
+        type: { summary: 'number' }
+      }
+    },
+    mediaMinHeight: {
+      name: 'mediaMinHeight',
+      description: '' +
+        '**The media minimum height in pixels.**\n\n' +
+        'Prevents the media from shrinking beyond a certain point inside the mask.',
+      table: {
+        category: 'Properties',
+        type: { summary: 'number' }
       }
     },
     mediaType: {
@@ -65,6 +85,8 @@ export const Template = props => (
     args={{
       focalPoint: '35% 75%',
       mediaRatio: '16/9',
+      mediaMinWidth: '',
+      mediaMinHeight: '',
       mediaType: 'image'
     }}
     parameters={{
@@ -95,6 +117,8 @@ export const Template = props => (
     args={{
       focalPoint: 'center',
       mediaRatio: '16/9',
+      mediaMinWidth: '',
+      mediaMinHeight: '',
       mediaType: 'video'
     }}
     parameters={{
