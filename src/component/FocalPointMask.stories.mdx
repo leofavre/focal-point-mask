@@ -27,8 +27,7 @@ startWebComponents();
       name: 'mediaRatio',
       description: '' +
         '**A string representing the media width divided by its height.**\n\n' +
-        'Although the ratio is calculated while the media loads, setting **mediaRatio** can prevent it from resizing during the process.\n\n' +
-        'The property is mandatory for iframe embeds (like Youtube or Vimeo videos), which ratios cannot be calculated.',
+        'Although the ratio is calculated while the media loads, setting **mediaRatio** can prevent it from resizing during the process.',
       table: {
         category: 'Properties',
         type: { summary: 'string' }
@@ -85,7 +84,7 @@ export const Template = props => (
     args={{
       focalPoint: '35% 75%',
       mediaRatio: '16/9',
-      mediaMinWidth: '',
+      mediaMinWidth: '700',
       mediaMinHeight: '',
       mediaType: 'image'
     }}
@@ -96,7 +95,7 @@ export const Template = props => (
       docs: {
         source: {
           code: '' +
-            '<focal-point-mask focalPoint="35% 75%" mediaRatio="16/9">\n' +
+            '<focal-point-mask focalPoint="35% 75%" mediaRatio="16/9" mediaMinWidth="700">\n' +
             '  <img src="https://picsum.photos/id/1012/3840/2160">\n' +
             '</focal-point-mask>'
         }
