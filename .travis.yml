@@ -5,8 +5,8 @@ node_js: 14
 jobs:
   include:
   - name: TypeScript Tests
-  script:
-  - npm run test-typescript
+    script:
+    - npm run test-typescript
 
   - name: Unit Tests
     if: branch != master
