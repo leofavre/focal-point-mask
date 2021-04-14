@@ -9,8 +9,8 @@
     "send-coverage": "cat ./coverage/lcov.info | coveralls",
     "start-storybook": "start-storybook -s ./public -p 6006",
     "start": "snowpack dev --port 8080",
-    "test": "jest --coverage",
-    "test-typescript": "tsc --noEmit"
+    "test-typescript": "tsc --noEmit",
+    "test": "jest --coverage"
   },
   "author": "Leonardo Favre <leo@leofavre.com> (https://www.leofavre.com/)",
   "license": "MIT",
