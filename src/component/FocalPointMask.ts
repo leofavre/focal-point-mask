@@ -55,7 +55,7 @@ class FocalPointMask extends HTMLElement {
     this.handleResize();
   }
 
-  get maskRatio (): number {
+  private get maskRatio (): number {
     return this.offsetWidth / this.offsetHeight;
   }
 
@@ -67,7 +67,7 @@ class FocalPointMask extends HTMLElement {
     setAttr<Attr>(this, 'focalpoint', value);
   }
 
-  get parsedFocalPoint (): number[] | undefined {
+  private get parsedFocalPoint (): number[] | undefined {
     return parsePosition(this.focalPoint);
   }
 
@@ -79,7 +79,7 @@ class FocalPointMask extends HTMLElement {
     setAttr<Attr>(this, 'mediaratio', value);
   }
 
-  get parsedMediaRatio (): number | undefined {
+  private get parsedMediaRatio (): number | undefined {
     return parseAspectRatio(this.mediaRatio) ||
       getMediaRatio(this.media) ||
       undefined;
@@ -101,7 +101,7 @@ class FocalPointMask extends HTMLElement {
     setAttr<Attr>(this, 'mediaminheight', value);
   }
 
-  detectMedia (): void {
+  private detectMedia (): void {
     this.media = this.querySelector('img, video');
     this.handleResize();
 
@@ -110,7 +110,7 @@ class FocalPointMask extends HTMLElement {
     }
   }
 
-  handleResize (): void {
+  private handleResize (): void {
     if (this.media != null && this.parsedMediaRatio != null) {
       const cropSides = this.maskRatio < this.parsedMediaRatio;
       const keepUserRatio = this.parsedMediaRatio !== getMediaRatio(this.media);
