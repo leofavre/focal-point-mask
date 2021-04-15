@@ -15,18 +15,6 @@ export const argTypes = {
       defaultValue: { summary: '"center"' }
     }
   },
-  aspectRatio: {
-    name: 'aspectRatio',
-    description: '' +
-      '**Media aspect ratio.**\n\n' +
-      'Equivalent to the media width divided by its height.\n\n' +
-      'Setting this property is useful to prevent the media from flashing during loading.\n\n' +
-      'Examples: `"16/9"` `"4/3"`',
-    table: {
-      category: 'Properties',
-      type: { summary: 'string' }
-    }
-  },
   minWidth: {
     name: 'minWidth',
     description: '' +
@@ -49,11 +37,23 @@ export const argTypes = {
       type: { summary: 'number' }
     }
   },
+  aspectRatio: {
+    name: 'aspectRatio',
+    description: '' +
+      '**Media aspect ratio.**\n\n' +
+      'Equivalent to the media width divided by its height.\n\n' +
+      'This property is only useful to prevent the media from abruptly resizing before it is completely loaded.\n\n' +
+      'Examples: `"16/9"` `"4/3"`',
+    table: {
+      category: 'Properties',
+      type: { summary: 'string' }
+    }
+  },
   onResize: {
     name: 'onResize',
     description: '' +
       '**Dispatched when the mask is resized.**\n\n' +
-      'The event forwards [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) entries in its detail property.',
+      'The event forwards [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) entries in its detail property which contain information about the current mask dimensions.',
     table: {
       category: 'Events',
       type: { summary: 'function' }

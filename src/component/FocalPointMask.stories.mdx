@@ -15,7 +15,10 @@ export const TemplateFactory = mediaType => ({ onResize, ...props}) => {
   useEffect(() => {
     const element = ref.current;
     if (element != null) {
-      element.onResize = onResize;
+      element.onResize = evt => {
+        const { width, height } = evt.detail[0].contentRect;
+        onResize(`${width}×${height} px`);
+      };
     }
   }, []);
   return (
