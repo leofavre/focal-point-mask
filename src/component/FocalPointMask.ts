@@ -60,7 +60,7 @@ class FocalPointMask extends HTMLElement {
   }
 
   get focalPoint (): string | undefined {
-    return getAttr<Attr, string>(this, 'focalpoint', String);
+    return getAttr<Attr>(this, 'focalpoint');
   }
 
   set focalPoint (value: string | undefined) {
@@ -72,7 +72,7 @@ class FocalPointMask extends HTMLElement {
   }
 
   get mediaRatio (): string | undefined {
-    return getAttr<Attr, string>(this, 'mediaratio', String);
+    return getAttr<Attr>(this, 'mediaratio');
   }
 
   set mediaRatio (value: string | undefined) {
