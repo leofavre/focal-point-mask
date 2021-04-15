@@ -1,0 +1,36 @@
+.example focal-point-mask {
+  height: 450px;
+  resize: none;
+  background-color: rgb(208, 229, 230);
+}
+
+.example focal-point-mask.loaded {
+  animation: accordion 5s ease-in-out infinite 3s;
+}
+
+.example img {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+.example img.loaded {
+  opacity: 1;
+}
+
+@keyframes accordion {
+  0% {
+    width: 100%;
+  }
+  15% {
+    width: 450px;
+  }
+  50% {
+    width: 450px;
+  }
+  65% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-export const argTypes = {
+const argTypes = {
   focalPoint: {
     name: 'focalPoint',
     description: '' +
@@ -61,3 +61,5 @@ export const argTypes = {
     action: 'resize'
   }
 };
+
+export default argTypes;
