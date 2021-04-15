@@ -18,8 +18,9 @@ export const argTypes = {
   aspectRatio: {
     name: 'aspectRatio',
     description: '' +
-      '**Media width divided by its height.**\n\n' +
-      'Although the ratio is calculated while the media loads, setting this property is useful to prevent it from resizing during the process.\n\n' +
+      '**Media aspect ratio.**\n\n' +
+      'Equivalent to the media width divided by its height.\n\n' +
+      'Setting this property is useful to prevent the media from flashing during loading.\n\n' +
       'Examples: `"16/9"` `"4/3"`',
     table: {
       category: 'Properties',
