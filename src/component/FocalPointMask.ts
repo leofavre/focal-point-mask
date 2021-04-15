@@ -31,7 +31,7 @@ class FocalPointMask extends HTMLElement {
     this.shadowRoot!.appendChild(content);
   }
 
-  connectedCallback (): void {
+  protected connectedCallback (): void {
     this.detectMedia();
 
     const options = { childList: true, subtree: true };
@@ -42,16 +42,16 @@ class FocalPointMask extends HTMLElement {
     this.resizeObserver.observe(this);
   }
 
-  disconnectedCallback (): void {
+  protected disconnectedCallback (): void {
     this.mutationObserver && this.mutationObserver.disconnect();
     this.resizeObserver && this.resizeObserver.disconnect();
   }
 
-  static get observedAttributes (): Attr[] {
+  protected static get observedAttributes (): Attr[] {
     return ['focalpoint', 'mediaratio', 'mediaminwidth', 'mediaminheight'];
   }
 
-  attributeChangedCallback (): void {
+  protected attributeChangedCallback (): void {
     this.handleResize();
   }
 
