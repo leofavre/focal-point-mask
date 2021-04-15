@@ -1,14 +1,8 @@
-interface CastFn<T> {
-  (value: unknown): T
-}
-
-function getAttr<A = string, T = string> (
+function getAttr<A = string> (
   el: HTMLElement,
-  attr: A,
-  userCastFn?: CastFn<T>
-): T | undefined {
-  const castFn = userCastFn || String as unknown as CastFn<T>;
-  return castFn(el.getAttribute(String(attr)));
+  attrName: A
+): string | undefined {
+  return el.getAttribute(String(attrName)) ?? undefined;
 }
 
 export default getAttr;

@@ -3,16 +3,16 @@ let element: HTMLElement;
 
 describe('getAttr', () => {
   beforeEach(() => {
-    element = {
-      getAttribute: jest.fn(() => '500')
-    } as unknown as HTMLElement;
+    element = {} as unknown as HTMLElement;
   });
 
-  it('should call String with the result o getAttribute and return it', () => {
+  it('should return getAttribute result', () => {
+    element.getAttribute = () => '500';
     expect(getAttr(element, 'height')).toBe('500');
   });
 
-  it('should call the use cast function with the result o getAttribute', () => {
-    expect(getAttr<string, number>(element, 'height', Number)).toBe(500);
+  it('should return undefined instead of null', () => {
+    element.getAttribute = () => null;
+    expect(getAttr(element, 'height')).toBeUndefined();
   });
 });

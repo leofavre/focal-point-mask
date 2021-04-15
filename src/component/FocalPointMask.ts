@@ -34,6 +34,11 @@ class FocalPointMask extends HTMLElement {
   protected connectedCallback (): void {
     this.detectMedia();
 
+    this.upgradeProperty('focalpoint');
+    this.upgradeProperty('mediaratio');
+    this.upgradeProperty('mediaminheight');
+    this.upgradeProperty('mediaminwidth');
+
     const options = { childList: true, subtree: true };
     this.mutationObserver = new MutationObserver(() => this.detectMedia());
     this.mutationObserver.observe(this, options);
@@ -86,7 +91,8 @@ class FocalPointMask extends HTMLElement {
   }
 
   get mediaMinWidth (): number | undefined {
-    return getAttr<Attr, number>(this, 'mediaminwidth', Number);
+    const attr = getAttr<Attr>(this, 'mediaminwidth');
+    return attr != null ? Number(attr) : attr;
   }
 
   set mediaMinWidth (value: number | undefined) {
@@ -94,7 +100,8 @@ class FocalPointMask extends HTMLElement {
   }
 
   get mediaMinHeight (): number | undefined {
-    return getAttr<Attr, number>(this, 'mediaminheight', Number);
+    const attr = getAttr<Attr>(this, 'mediaminheight');
+    return attr != null ? Number(attr) : attr;
   }
 
   set mediaMinHeight (value: number | undefined) {
@@ -139,6 +146,14 @@ class FocalPointMask extends HTMLElement {
       this.media.style.aspectRatio = keepUserRatio
         ? `${this.parsedMediaRatio}/1`
         : '';
+    }
+  }
+
+  private upgradeProperty (propName: Attr) {
+    if (Object.prototype.hasOwnProperty.call(this, propName)) {
+      const value = this[propName];
+      delete this[propName];
+      this[propName] = value;
     }
   }
 }
