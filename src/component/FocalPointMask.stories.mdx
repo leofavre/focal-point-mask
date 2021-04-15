@@ -17,7 +17,7 @@ export const TemplateFactory = mediaType => ({ onResize, ...props}) => {
     if (element != null) {
       element.onResize = evt => {
         const { width, height } = evt.detail[0].contentRect;
-        onResize(`${width}×${height} px`);
+        onResize(`${width}×${height}`);
       };
     }
   }, []);

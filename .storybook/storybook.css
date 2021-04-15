@@ -19,7 +19,7 @@ h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
   display: none;
 }
 
-/* prevent ArgsTables textarea from resizing */
+/* prevent ArgsTables textarea from being manually resized */
 
 .docblock-argstable textarea {
   resize: none;
