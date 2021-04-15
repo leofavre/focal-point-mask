@@ -15,8 +15,8 @@ export const argTypes = {
       defaultValue: { summary: '"center"' }
     }
   },
-  mediaRatio: {
-    name: 'mediaRatio',
+  aspectRatio: {
+    name: 'aspectRatio',
     description: '' +
       '**Media width divided by its height.**\n\n' +
       'Although the ratio is calculated while the media loads, setting this property is useful to prevent it from resizing during the process.\n\n' +
@@ -26,8 +26,8 @@ export const argTypes = {
       type: { summary: 'string' }
     }
   },
-  mediaMinWidth: {
-    name: 'mediaMinWidth',
+  minWidth: {
+    name: 'minWidth',
     description: '' +
       '**Media minimum width in pixels.**\n\n' +
       'Prevents the media width from shrinking beyond a certain point inside the mask.\n\n' +
@@ -37,8 +37,8 @@ export const argTypes = {
       type: { summary: 'number' }
     }
   },
-  mediaMinHeight: {
-    name: 'mediaMinHeight',
+  minHeight: {
+    name: 'minHeight',
     description: '' +
       '**Media minimum height in pixels.**\n\n' +
       'Prevents the media height from shrinking beyond a certain point inside the mask.\n\n' +

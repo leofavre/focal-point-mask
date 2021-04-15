@@ -35,9 +35,9 @@ Drag the bottom right corner of the image to resize it.
     name="image"
     args={{
       focalPoint: '35% 75%',
-      mediaRatio: '16/9',
-      mediaMinWidth: '700',
-      mediaMinHeight: '0'
+      aspectRatio: '16/9',
+      minWidth: '700',
+      minHeight: '0'
     }}
     parameters={{
       controls: {
@@ -46,7 +46,7 @@ Drag the bottom right corner of the image to resize it.
       docs: {
         source: {
           code: '' +
-            '<focal-point-mask focalPoint="35% 75%" mediaRatio="16/9" mediaMinWidth="700">\n' +
+            '<focal-point-mask focalPoint="35% 75%" aspectRatio="16/9" minWidth="700">\n' +
             '  <img src="https://picsum.photos/id/1012/3840/2160">\n' +
             '</focal-point-mask>'
         }
@@ -68,9 +68,9 @@ Drag the bottom right corner of the video to resize it.
     name="video"
     args={{
       focalPoint: 'center',
-      mediaRatio: '16/9',
-      mediaMinWidth: '0',
-      mediaMinHeight: '0'
+      aspectRatio: '16/9',
+      minWidth: '0',
+      minHeight: '0'
     }}
     parameters={{
       controls: {
@@ -79,7 +79,7 @@ Drag the bottom right corner of the video to resize it.
       docs: {
         source: {
           code: '' +
-            '<focal-point-mask focalPoint="center" mediaRatio="16/9">\n' +
+            '<focal-point-mask focalPoint="center" aspectRatio="16/9">\n' +
             '  <video autoplay muted loop>\n' +
             '    <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4">\n' +
             '  </video>\n' +

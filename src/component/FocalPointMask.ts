@@ -76,35 +76,35 @@ class FocalPointMask extends HTMLElement {
     return parsePosition(this.focalPoint);
   }
 
-  get mediaRatio (): string | undefined {
+  get aspectRatio (): string | undefined {
     return getAttr<Attr>(this, 'mediaratio');
   }
 
-  set mediaRatio (value: string | undefined) {
+  set aspectRatio (value: string | undefined) {
     setAttr<Attr>(this, 'mediaratio', value);
   }
 
-  private get parsedMediaRatio (): number | undefined {
-    return parseAspectRatio(this.mediaRatio) ||
+  private get parsedAspectRatio (): number | undefined {
+    return parseAspectRatio(this.aspectRatio) ||
       getMediaRatio(this.media) ||
       undefined;
   }
 
-  get mediaMinWidth (): number | undefined {
+  get minWidth (): number | undefined {
     const attr = getAttr<Attr>(this, 'mediaminwidth');
     return attr != null ? Number(attr) : attr;
   }
 
-  set mediaMinWidth (value: number | undefined) {
+  set minWidth (value: number | undefined) {
     setAttr<Attr>(this, 'mediaminwidth', value);
   }
 
-  get mediaMinHeight (): number | undefined {
+  get minHeight (): number | undefined {
     const attr = getAttr<Attr>(this, 'mediaminheight');
     return attr != null ? Number(attr) : attr;
   }
 
-  set mediaMinHeight (value: number | undefined) {
+  set minHeight (value: number | undefined) {
     setAttr<Attr>(this, 'mediaminheight', value);
   }
 
@@ -112,25 +112,26 @@ class FocalPointMask extends HTMLElement {
     this.media = this.querySelector('img, video');
     this.handleResize();
 
-    if (this.media != null && this.parsedMediaRatio == null) {
+    if (this.media != null && this.parsedAspectRatio == null) {
       onMediaLoaded(this.media, () => this.detectMedia());
     }
   }
 
   private handleResize (): void {
-    if (this.media != null && this.parsedMediaRatio != null) {
-      const cropSides = this.maskRatio < this.parsedMediaRatio;
-      const keepUserRatio = this.parsedMediaRatio !== getMediaRatio(this.media);
+    if (this.media != null && this.parsedAspectRatio != null) {
+      const cropSides = this.maskRatio < this.parsedAspectRatio;
+      const keepUserRatio =
+        this.parsedAspectRatio !== getMediaRatio(this.media);
       const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
 
       const minWidth = Math.max(
-        this.mediaMinWidth || 0,
-        (this.mediaMinHeight || 0) * this.parsedMediaRatio
+        this.minWidth || 0,
+        (this.minHeight || 0) * this.parsedAspectRatio
       );
 
       const minHeight = Math.max(
-        (this.mediaMinWidth || 0) / this.parsedMediaRatio,
-        this.mediaMinHeight || 0
+        (this.minWidth || 0) / this.parsedAspectRatio,
+        this.minHeight || 0
       );
 
       this.media.style.position = 'absolute';
@@ -144,7 +145,7 @@ class FocalPointMask extends HTMLElement {
       this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
 
       this.media.style.aspectRatio = keepUserRatio
-        ? `${this.parsedMediaRatio}/1`
+        ? `${this.parsedAspectRatio}/1`
         : '';
     }
   }
