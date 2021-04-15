@@ -6,8 +6,6 @@ A responsive mask component that dynamically crops images and videos preserving 
 
 ### Install
 
-Install using `npm` or `yarn`.
-
 #### npm
 
 ```bash
@@ -28,7 +26,7 @@ Import the package to make the `<focal-point-mask>` tag available in the HTML.
 import 'focal-point-mask';
 ```
 
-Import the class instead if you prefer to define the `<focal-point-mask>` tag manually.
+If you prefer to define the tag manually, import the class instead.
 
 ```js
 import FocalPointMask from 'focal-point-mask/class';
@@ -54,7 +52,7 @@ Use `<focal-point-mask>` in the HTML to mask images or videos.
 </focal-point-mask>
 ```
 
-Style `<focal-point-mask>` with some dimensions, otherwise it will not be displayed.
+Style `focal-point-mask` with some dimensions, otherwise it won't be displayed.
 
 ```css
 focal-point-mask {
