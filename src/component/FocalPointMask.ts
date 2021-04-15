@@ -14,11 +14,12 @@ declare global {
   }
 }
 
-type Attr = 'focalpoint' | 'mediaratio' | 'mediaminwidth' | 'mediaminheight';
+type Attr = 'focalpoint' | 'aspectratio' | 'minwidth' | 'minheight';
 
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
+  public onResize?: (evt: CustomEvent<ResizeObserverEntry[]>) => void;
   private media: MediaElement | null;
   private mutationObserver: MutationObserver;
   private resizeObserver: ResizeObserver;
@@ -35,15 +36,25 @@ class FocalPointMask extends HTMLElement {
     this.detectMedia();
 
     this.upgradeProperty('focalpoint');
-    this.upgradeProperty('mediaratio');
-    this.upgradeProperty('mediaminheight');
-    this.upgradeProperty('mediaminwidth');
+    this.upgradeProperty('aspectratio');
+    this.upgradeProperty('minheight');
+    this.upgradeProperty('minwidth');
 
     const options = { childList: true, subtree: true };
-    this.mutationObserver = new MutationObserver(() => this.detectMedia());
+
+    this.mutationObserver = new MutationObserver(() => {
+      this.detectMedia();
+    });
+
     this.mutationObserver.observe(this, options);
 
-    this.resizeObserver = new ResizeObserver(() => this.handleResize());
+    this.resizeObserver = new ResizeObserver(
+      (entries: ResizeObserverEntry[]) => {
+        this.handleChange();
+        this.handleResize(entries);
+      }
+    );
+
     this.resizeObserver.observe(this);
   }
 
@@ -52,12 +63,20 @@ class FocalPointMask extends HTMLElement {
     this.resizeObserver && this.resizeObserver.disconnect();
   }
 
+  private upgradeProperty (propName: Attr) {
+    if (Object.prototype.hasOwnProperty.call(this, propName)) {
+      const value = this[propName];
+      delete this[propName];
+      this[propName] = value;
+    }
+  }
+
   protected static get observedAttributes (): Attr[] {
-    return ['focalpoint', 'mediaratio', 'mediaminwidth', 'mediaminheight'];
+    return ['focalpoint', 'aspectratio', 'minwidth', 'minheight'];
   }
 
   protected attributeChangedCallback (): void {
-    this.handleResize();
+    this.handleChange();
   }
 
   private get maskRatio (): number {
@@ -77,11 +96,11 @@ class FocalPointMask extends HTMLElement {
   }
 
   get aspectRatio (): string | undefined {
-    return getAttr<Attr>(this, 'mediaratio');
+    return getAttr<Attr>(this, 'aspectratio');
   }
 
   set aspectRatio (value: string | undefined) {
-    setAttr<Attr>(this, 'mediaratio', value);
+    setAttr<Attr>(this, 'aspectratio', value);
   }
 
   private get parsedAspectRatio (): number | undefined {
@@ -91,37 +110,35 @@ class FocalPointMask extends HTMLElement {
   }
 
   get minWidth (): number | undefined {
-    const attr = getAttr<Attr>(this, 'mediaminwidth');
+    const attr = getAttr<Attr>(this, 'minwidth');
     return attr != null ? Number(attr) : attr;
   }
 
   set minWidth (value: number | undefined) {
-    setAttr<Attr>(this, 'mediaminwidth', value);
+    setAttr<Attr>(this, 'minwidth', value);
   }
 
   get minHeight (): number | undefined {
-    const attr = getAttr<Attr>(this, 'mediaminheight');
+    const attr = getAttr<Attr>(this, 'minheight');
     return attr != null ? Number(attr) : attr;
   }
 
   set minHeight (value: number | undefined) {
-    setAttr<Attr>(this, 'mediaminheight', value);
+    setAttr<Attr>(this, 'minheight', value);
   }
 
   private detectMedia (): void {
     this.media = this.querySelector('img, video');
-    this.handleResize();
+    this.handleChange();
 
     if (this.media != null && this.parsedAspectRatio == null) {
       onMediaLoaded(this.media, () => this.detectMedia());
     }
   }
 
-  private handleResize (): void {
+  private handleChange (): void {
     if (this.media != null && this.parsedAspectRatio != null) {
       const cropSides = this.maskRatio < this.parsedAspectRatio;
-      const keepUserRatio =
-        this.parsedAspectRatio !== getMediaRatio(this.media);
       const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
 
       const minWidth = Math.max(
@@ -144,18 +161,23 @@ class FocalPointMask extends HTMLElement {
       this.media.style.left = `${left}%`;
       this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
 
+      const keepUserRatio =
+        this.parsedAspectRatio !== getMediaRatio(this.media);
+
       this.media.style.aspectRatio = keepUserRatio
         ? `${this.parsedAspectRatio}/1`
         : '';
     }
   }
 
-  private upgradeProperty (propName: Attr) {
-    if (Object.prototype.hasOwnProperty.call(this, propName)) {
-      const value = this[propName];
-      delete this[propName];
-      this[propName] = value;
-    }
+  private handleResize (detail: ResizeObserverEntry[]): void {
+    const event = new CustomEvent<ResizeObserverEntry[]>('resize', {
+      bubbles: true,
+      detail
+    });
+
+    this.dispatchEvent(event);
+    this.onResize && this.onResize(event);
   }
 }
 
