@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import { argTypes } from '../../docs/argTypes';
 import FocalPointMask from './FocalPointMask';
@@ -9,18 +10,27 @@ export const startWebComponents = () => {
 }
 startWebComponents();
 
-export const TemplateFactory = mediaType => props => (
-  <focal-point-mask {...props}>
-    {mediaType === 'image' && (
-      <img src="https://picsum.photos/id/1012/3840/2160"/>
-    )}
-    {mediaType === 'video' && (
-      <video autoPlay muted loop>
-        <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4"/>
-      </video>
-    )}
-  </focal-point-mask>
-);
+export const TemplateFactory = mediaType => ({ onResize, ...props}) => {
+  const ref = useRef();
+  useEffect(() => {
+    const element = ref.current;
+    if (element != null) {
+      element.onResize = onResize;
+    }
+  }, []);
+  return (
+    <focal-point-mask ref={ref} {...props}>
+      {mediaType === 'image' && (
+        <img src="https://picsum.photos/id/1012/3840/2160"/>
+      )}
+      {mediaType === 'video' && (
+        <video autoPlay muted loop>
+          <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4"/>
+        </video>
+      )}
+    </focal-point-mask>
+  );
+}
 
 <Meta title="Examples" argTypes={argTypes}/>
 

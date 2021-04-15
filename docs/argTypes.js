@@ -6,7 +6,7 @@ export const argTypes = {
     description: '' +
       '**Media focal point coordinate.**\n\n' +
       'The coordinate of the media area that should be preserved when it is cropped by the mask.\n\n' +
-      'Similarly to **background-position** in CSS, it expects a pair of position keywords or percentage values representing the distance from the media top left corner to the focal point.\n\n' +
+      'Similarly to [background-position](https://cssreference.io/property/background-position/) in CSS, it expects a pair of position keywords or percentage values representing the distance from the media top left corner to the focal point.\n\n' +
       'If a single value is passed, the second value is set to *"center"*.\n\n' +
       'Examples: `"top right"` `"center left"` `"25% 65%"`',
     table: {
@@ -47,5 +47,16 @@ export const argTypes = {
       category: 'Properties',
       type: { summary: 'number' }
     }
+  },
+  onResize: {
+    name: 'onResize',
+    description: '' +
+      '**Dispatched when the mask is resized.**\n\n' +
+      'The event forwards [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) entries in its detail property.',
+    table: {
+      category: 'Events',
+      type: { summary: 'function' }
+    },
+    action: 'resize'
   }
 };
