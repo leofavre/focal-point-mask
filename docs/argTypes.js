@@ -1,8 +1,8 @@
-import focalPoint from './props/focalPoint';
-import minWidth from './props/minWidth';
-import minHeight from './props/minHeight';
-import aspectRatio from './props/aspectRatio';
-import onResize from './props/onResize';
+import focalPoint from './argTypes/focalPoint';
+import minWidth from './argTypes/minWidth';
+import minHeight from './argTypes/minHeight';
+import aspectRatio from './argTypes/aspectRatio';
+import onResize from './argTypes/onResize';
 
 const argTypes = {
   focalPoint,
