@@ -1,4 +1,4 @@
-import description from './aspectRRatio.md';
+import description from './aspectRatio.md';
 
 const aspectRatio = {
   name: 'aspectRatio',

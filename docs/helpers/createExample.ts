@@ -1,10 +1,10 @@
-import type FocalPointMask from '../src/component/FocalPointMask';
+import type FocalPointMask from '../../src/component/FocalPointMask';
 
 interface CreateExampleConfig {
   name: string;
   focalPoints: string[];
   imgSrc: string;
-  duration: number;
+  duration?: number;
 }
 
 interface CreateExample {

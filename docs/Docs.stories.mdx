@@ -1,27 +1,16 @@
 import { Story, Meta, Description } from '@storybook/addon-docs/blocks';
 import { ArgsTable as PureArgsTable } from '@storybook/components';
+import Storyless from './helpers/Storyless';
 import argTypes from './argTypes';
-import createExample from './createExample';
-import Storyless from './Storyless';
 import Readme from '../README.md';
+import ExampleOne from './examples/ExampleOne';
+import ExampleTwo from './examples/ExampleTwo';
 
 export const noop = () => {};
 export const FIRST_SUBTITLE = '## Introduction';
 export const br = Readme.indexOf(FIRST_SUBTITLE);
 export const ReadmeBeforeFirstSubtitle = Readme.slice(0, br);
 export const ReadmeAfterFirstSubtitle = Readme.slice(br);
-
-export const ExampleOne = () => createExample({
-  name: 'one',
-  focalPoints: ['50% 15%','50% 15%','50% 85%','50% 85%'],
-  imgSrc: 'https://picsum.photos/id/1011/3840/2160'
-});
-
-export const ExampleTwo = () => createExample({
-  name: 'two',
-  focalPoints: ['26% 39%','26% 39%','26% 100%','26% 100%'],
-  imgSrc: 'https://picsum.photos/id/22/3840/2160'
-});
 
 <Meta title="Focal Point Mask"/>
 
