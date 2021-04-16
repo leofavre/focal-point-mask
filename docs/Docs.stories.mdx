@@ -2,6 +2,7 @@ import { Story, Meta, Description } from '@storybook/addon-docs/blocks';
 import { ArgsTable as PureArgsTable } from '@storybook/components';
 import argTypes from './argTypes';
 import createExample from './createExample';
+import Storyless from './Storyless';
 import Readme from '../README.md';
 
 export const noop = () => {};
@@ -26,11 +27,11 @@ export const ExampleTwo = () => createExample({
 
 <Description>{ReadmeBeforeFirstSubtitle}</Description>
 
-<Story name="introduction">{ExampleOne.bind({})}</Story>
+<Storyless>{ExampleOne.bind({})}</Storyless>
 
 <Description>{ReadmeAfterFirstSubtitle}</Description>
 
-<Story name="api">{ExampleTwo.bind({})}</Story>
+<Storyless>{ExampleTwo.bind({})}</Storyless>
 
 ## API
 

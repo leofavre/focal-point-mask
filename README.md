@@ -1,6 +1,6 @@
 # Focal Point Mask
 
-#### A responsive mask web component that dynamically crops images and videos preserving a determined focal point.
+#### A responsive mask web component that dynamically crops any visual media preserving a given focal point.
 
 ## Introduction
 
