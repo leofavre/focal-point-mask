@@ -3,8 +3,8 @@ import { ArgsTable as PureArgsTable } from '@storybook/components';
 import Storyless from './helpers/Storyless';
 import argTypes from './argTypes';
 import Readme from '../README.md';
-import ExampleLake from './examples/ExampleLake';
-import ExampleStreet from './examples/ExampleStreet';
+import Lake from './examples/Lake';
+import Street from './examples/Street';
 
 export const noop = () => {};
 export const FIRST_SUBTITLE = '## Introduction';
@@ -16,11 +16,11 @@ export const ReadmeAfterFirstSubtitle = Readme.slice(br);
 
 <Description>{ReadmeBeforeFirstSubtitle}</Description>
 
-<Storyless>{ExampleLake.bind({})}</Storyless>
+<Storyless>{Lake.bind({})}</Storyless>
 
 <Description>{ReadmeAfterFirstSubtitle}</Description>
 
-<Storyless>{ExampleStreet.bind({})}</Storyless>
+<Storyless>{Street.bind({})}</Storyless>
 
 ## API
 

@@ -13,7 +13,7 @@ const prepareForInline = (storyFn: StoryFn) => {
 };
 
 interface StorylessProps {
-  children: StoryFn
+  children: StoryFn;
 }
 
 type StorylessReturn = ReturnType<typeof prepareForInline>;
