@@ -1,11 +1,14 @@
+.example {
+  background-color: rgb(246, 249, 252);
+}
+
 .example focal-point-mask {
   height: 450px;
   resize: none;
-  background-color: rgb(208, 229, 230);
 }
 
 .example focal-point-mask.loaded {
-  animation: accordion 5s ease-in-out infinite 3s;
+  animation: accordion 4.3s ease-in-out infinite 3s;
 }
 
 .example img {
@@ -15,6 +18,23 @@
 
 .example img.loaded {
   opacity: 1;
+}
+
+.example .fp {
+  position: absolute;
+  display: none; /* find correct position first */
+  width: 0px;
+  height: 0px;
+}
+
+.example .fp::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  top: -3px;
+  left: -3px;
+  background-color: yellow;
 }
 
 @keyframes accordion {

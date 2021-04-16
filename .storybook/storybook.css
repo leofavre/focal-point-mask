@@ -41,3 +41,7 @@ h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
 .sbdocs h4:first-of-type {
   margin-top: 18px;
 }
+
+.sbdocs .example {
+  margin: 54px 0px;
+}

@@ -1,5 +1,5 @@
 import '../public/index.css';
-import '../docs/examples/examples.css';
+import '../docs/index.css';
 import './storybook.css';
 
 export const parameters = {

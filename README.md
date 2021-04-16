@@ -1,8 +1,8 @@
 # Focal Point Mask
 
-A responsive mask component that dynamically crops images and videos preserving their focal points.
+#### A responsive mask web component that dynamically crops images and videos preserving a determined focal point.
 
-## Getting started
+## Introduction
 
 ### Install
 
@@ -36,9 +36,9 @@ if (!window.customElements.get('focal-point-mask')) {
 }
 ```
 
-### Use
+### Usage
 
-Use `<focal-point-mask>` in the HTML to mask images or videos.
+Wrap images or videos with `<focal-point-mask>` in the HTML.
 
 ```html
 <focal-point-mask focalPoint="35% 75%">
