@@ -1,27 +1,22 @@
 import { Story, Meta, Description } from '@storybook/addon-docs/blocks';
 import { ArgsTable as PureArgsTable } from '@storybook/components';
 import Storyless from './helpers/Storyless';
+import grabMarkdownSections from './helpers/grabMarkdownSections';
 import argTypes from './argTypes';
 import Readme from '../README.md';
 import Lake from './examples/Lake';
 import Street from './examples/Street';
 
-export const noop = () => {};
-export const FIRST_SUBTITLE = '## Introduction';
-export const br = Readme.indexOf(FIRST_SUBTITLE);
-export const ReadmeBeforeFirstSubtitle = Readme.slice(0, br);
-export const ReadmeAfterFirstSubtitle = Readme.slice(br);
-
 <Meta title="Focal Point Mask"/>
 
-<Description>{ReadmeBeforeFirstSubtitle}</Description>
+<Description>{grabMarkdownSections(Readme)[0]}</Description>
 
 <Storyless>{Lake.bind({})}</Storyless>
 
-<Description>{ReadmeAfterFirstSubtitle}</Description>
+<Description>{grabMarkdownSections(Readme)[1]}</Description>
 
 <Storyless>{Street.bind({})}</Storyless>
 
 ## API
 
-<PureArgsTable rows={argTypes} resetArgs={noop} updateArgs={noop}/>
+<PureArgsTable rows={argTypes}/>
