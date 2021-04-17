@@ -95,8 +95,8 @@ class FocalPointMask extends HTMLElement {
   }
 
   private get parsedAspectRatio (): number | undefined {
-    return this.strategy.hasNaturalAspectRatio
-      ? this.strategy.getRatio(this)
+    return this.strategy.getRatio
+      ? this.strategy.getRatio(this) || parseAspectRatio(this.aspectRatio)
       : parseAspectRatio(this.aspectRatio);
   }
 

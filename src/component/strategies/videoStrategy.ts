@@ -20,11 +20,10 @@ const videoStrategy: Strategy = {
         : resolve(target);
     });
   },
-  hasNaturalAspectRatio: true,
   getRatio (node) {
     const target = this.getTarget(node) as HTMLVideoElement | null;
     return target != null
-      ? target.videoWidth / target.videoHeight
+      ? target.videoWidth / target.videoHeight || undefined
       : undefined;
   }
 };

@@ -20,11 +20,10 @@ const imageStrategy: Strategy = {
         : resolve(target);
     });
   },
-  hasNaturalAspectRatio: true,
   getRatio (node) {
     const target = this.getTarget(node) as HTMLImageElement | null;
     return target != null
-      ? target.naturalWidth / target.naturalHeight
+      ? target.naturalWidth / target.naturalHeight || undefined
       : undefined;
   }
 };

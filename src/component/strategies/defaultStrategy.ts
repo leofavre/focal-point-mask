@@ -10,10 +10,6 @@ const defaultStrategy: Strategy = {
   },
   isReady () {
     return true;
-  },
-  hasNaturalAspectRatio: false,
-  getRatio () {
-    return undefined;
   }
 };
 

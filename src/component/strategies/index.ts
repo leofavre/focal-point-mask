@@ -9,8 +9,7 @@ export interface Strategy {
   isMatch(node: HTMLElement | null): boolean;
   isReady(node: HTMLElement | null): boolean;
   load?(node: HTMLElement | null): Promise<HTMLElement | null>;
-  hasNaturalAspectRatio: boolean;
-  getRatio(node: HTMLElement | null): number | undefined;
+  getRatio?(node: HTMLElement | null): number | undefined;
 }
 
 const strategies: Strategy[] = [
