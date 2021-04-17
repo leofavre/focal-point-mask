@@ -160,14 +160,19 @@ class FocalPointMask extends HTMLElement {
   }
 
   private handleResize (detail: ResizeObserverEntry[]): void {
-    const event = new CustomEvent<ResizeObserverEntry[]>('maskresize', {
+    const config = {
       bubbles: true,
       detail
-    });
+    };
 
-    this.dispatchEvent(event);
-    this.onMaskResize && this.onMaskResize(event);
-    this.onmaskresize && this.onmaskresize(event);
+    const evt = new CustomEvent<ResizeObserverEntry[]>('maskResize', config);
+    const altEvt = new CustomEvent<ResizeObserverEntry[]>('maskresize', config);
+
+    this.dispatchEvent(evt);
+    this.dispatchEvent(altEvt);
+
+    this.onMaskResize && this.onMaskResize(evt);
+    this.onmaskresize && this.onmaskresize(altEvt);
   }
 }
 
