@@ -5,9 +5,6 @@
 .example focal-point-mask {
   height: 450px;
   resize: none;
-}
-
-.example focal-point-mask.loaded {
   animation: accordion 4.3s ease-in-out infinite 3s;
 }
 
@@ -20,14 +17,14 @@
   opacity: 1;
 }
 
-.example .fp {
+.example .focal-point {
   position: absolute;
   display: none; /* find correct position first */
   width: 0px;
   height: 0px;
 }
 
-.example .fp::before {
+.example .focal-point::before {
   content: '';
   position: absolute;
   width: 6px;

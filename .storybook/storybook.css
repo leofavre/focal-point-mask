@@ -5,11 +5,27 @@ h2:not(#api) ~ * > .docblock-argstable tbody tr:not([title]) td:nth-child(2) p:n
   display: none;
 }
 
-/* hide events on ArgsTables except on the one in the API section */
+/* hide ArgsTables events except in the API section */
 
 h2:not(#api) ~ * > .docblock-argstable tbody tr[title]:nth-of-type(n + 2),
 h2:not(#api) ~ * > .docblock-argstable tbody tr[title]:nth-of-type(n + 2) ~ tr {
   display: none;
+}
+
+/* Resize API ArgsTable columns */
+
+h2#api ~ * > .docblock-argstable thead th:nth-child(2),
+h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-child(2) {
+  width: 52%;
+}
+
+/* Hide API ArgsTable "Defaults" column on smaller screens */
+
+@media only screen and (max-width: 700px) {
+  h2#api ~ * > .docblock-argstable thead th:nth-last-child(1),
+  h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
+    display: none;
+  }
 }
 
 /* prevent ArgsTables textarea from being manually resized */

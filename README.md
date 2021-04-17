@@ -2,7 +2,7 @@
 
 #### A responsive mask web component that dynamically crops any visual media preserving a given focal point.
 
-## Introduction
+## Quick Start
 
 ### Install
 
@@ -36,19 +36,13 @@ if (!window.customElements.get('focal-point-mask')) {
 }
 ```
 
-### Usage
+### Use
 
-Wrap images, videos or any visual media with `<focal-point-mask>` in the HTML.
+Wrap images, videos or any visual media in `<focal-point-mask>`.
 
 ```html
 <focal-point-mask focalPoint="35% 75%">
   <img src="image.png">
-</focal-point-mask>
-
-<focal-point-mask focalPoint="center">
-  <video>
-    <source src="video.mp4">
-  </video>
 </focal-point-mask>
 ```
 

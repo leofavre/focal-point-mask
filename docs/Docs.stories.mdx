@@ -1,21 +1,27 @@
-import { Story, Meta, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Description } from '@storybook/addon-docs/blocks';
 import { ArgsTable as PureArgsTable } from '@storybook/components';
-import Storyless from './helpers/Storyless';
-import grabMarkdownSections from './helpers/grabMarkdownSections';
-import argTypes from './argTypes';
+import { Example, grabMarkdownSections } from './helpers';
 import Readme from '../README.md';
-import Lake from './examples/Lake';
-import Street from './examples/Street';
+import argTypes from './argTypes';
+import '../src'
 
 <Meta title="Focal Point Mask"/>
 
 <Description>{grabMarkdownSections(Readme)[0]}</Description>
 
-<Storyless>{Lake.bind({})}</Storyless>
+<Example
+  name="lake"
+  focalPoints={['50% 15%', '50% 85%']}
+  imgSrc="https://picsum.photos/id/1011/3840/2160"
+/>
 
 <Description>{grabMarkdownSections(Readme)[1]}</Description>
 
-<Storyless>{Street.bind({})}</Storyless>
+<Example
+  name="street"
+  focalPoints={['26% 39%', '26% 100%']}
+  imgSrc="https://picsum.photos/id/22/3840/2160"
+/>
 
 ## API
 
@@ -23,11 +29,13 @@ import Street from './examples/Street';
 
 ### Using properties and events
 
-Properties can be set through HTML and got and set through JavaScript.
+Properties can be set through HTML.
 
 ```html
 <focal-point-mask focalPoint="35% 75%" minHeight="500">
 ```
+
+Properties can be got and set through JavaScript.
 
 ```js
 const focalPointMask = document.querySelector('focal-point-mask');
@@ -41,7 +49,7 @@ const prop = focalPointMask.minHeight;
 focalPointMask.minHeight = 500;
 ```
 
-Event listeners can **only** be attached through JavaScript using either `addEventListener` or provided methods.
+Event listeners can **only** be attached through JavaScript using either `addEventListener` or event methods.
 
 ```js
 const focalPointMask = document.querySelector('focal-point-mask');
@@ -49,11 +57,11 @@ const focalPointMask = document.querySelector('focal-point-mask');
 // addEventListener
 focalPointMask.addEventListener('maskResize', callback);
 
-// provided method
+// event method
 focalPointMask.onMaskResize(callback);
 ```
 
-The following example will **not work** in native HTML but frameworks like [Vue](https://custom-elements-everywhere.com/libraries/vue/results/results.html) and [Angular](https://custom-elements-everywhere.com/libraries/angular/results/results.html) (but not [React](https://custom-elements-everywhere.com/libraries/react/results/results.html)) provide HTML-like syntaxes that allow properties to be passed as actual properties and not as attributes. See [Custom Elements Everywhere](https://custom-elements-everywhere.com/) for more information.
+The following example **will not work** in native HTML but frameworks like [Vue](https://custom-elements-everywhere.com/libraries/vue/results/results.html) and [Angular](https://custom-elements-everywhere.com/libraries/angular/results/results.html) (but not [React](https://custom-elements-everywhere.com/libraries/react/results/results.html)) provide HTML-like syntaxes that allow properties to be passed as actual properties and not as attributes. See [Custom Elements Everywhere](https://custom-elements-everywhere.com/) for more information.
 
 ```html
 <!-- this will NOT work in native HTML -->
