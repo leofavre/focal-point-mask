@@ -4,6 +4,7 @@ import pictureStrategy from './pictureStrategy';
 import defaultStrategy from './defaultStrategy';
 
 export interface Strategy {
+  name: 'image' | 'video' | 'picture' | 'default';
   getTarget(node: HTMLElement | null): HTMLElement | null;
   isMatch(node: HTMLElement | null): boolean;
   isReady(node: HTMLElement | null): boolean;

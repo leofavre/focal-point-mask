@@ -1,6 +1,7 @@
 import type { Strategy } from '.';
 
 const videoStrategy: Strategy = {
+  name: 'video',
   getTarget (node) {
     return node?.querySelector('*') ?? null;
   },

@@ -3,6 +3,7 @@ import imageStrategy from './imageStrategy';
 
 const pictureStrategy: Strategy = {
   ...imageStrategy,
+  name: 'picture',
   getTarget (node) {
     return node?.querySelector('img') ?? null;
   },

@@ -146,7 +146,6 @@ class FocalPointMask extends HTMLElement {
       );
 
       this.target.style.position = 'absolute';
-      this.target.style.display = 'block';
       this.target.style.width = cropSides ? 'auto' : '100%';
       this.target.style.minWidth = `${minWidth}px`;
       this.target.style.height = cropSides ? '100%' : 'auto';

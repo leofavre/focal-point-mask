@@ -1,6 +1,7 @@
 import type { Strategy } from '.';
 
 const imageStrategy: Strategy = {
+  name: 'image',
   getTarget (node) {
     return node?.querySelector('*') ?? null;
   },
