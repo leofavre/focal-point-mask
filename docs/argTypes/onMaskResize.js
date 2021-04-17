@@ -5,7 +5,7 @@ const onMaskResize = {
   description,
   table: {
     category: 'Events',
-    type: { summary: '(evt: CustomEvent<ResizeObserverEntry[]>): void' }
+    type: { summary: '(event: CustomEvent<ResizeObserverEntry[]>): void' }
   },
   action: 'resize'
 };
