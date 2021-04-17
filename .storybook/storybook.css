@@ -12,13 +12,6 @@ h2:not(#api) ~ * > .docblock-argstable tbody tr[title]:nth-of-type(n + 2) ~ tr {
   display: none;
 }
 
-/* hide the last column of the API ArgsTable */
-
-h2#api ~ * > .docblock-argstable thead th:nth-last-child(1),
-h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
-  display: none;
-}
-
 /* prevent ArgsTables textarea from being manually resized */
 
 .docblock-argstable textarea {
