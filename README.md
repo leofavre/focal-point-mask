@@ -38,7 +38,7 @@ if (!window.customElements.get('focal-point-mask')) {
 
 ### Usage
 
-Wrap images or videos with `<focal-point-mask>` in the HTML.
+Wrap images, videos or any visual media with `<focal-point-mask>` in the HTML.
 
 ```html
 <focal-point-mask focalPoint="35% 75%">
