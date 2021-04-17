@@ -7,8 +7,8 @@
     "build": "tsc",
     "prepublish": "rimraf dist && npm run build",
     "send-coverage": "cat ./coverage/lcov.info | coveralls",
-    "start-storybook": "start-storybook -s ./public -p 6006",
     "start": "snowpack dev --port 8080",
+    "storybook": "start-storybook -s ./public -p 6006 --ci",
     "test-typescript": "tsc --noEmit",
     "test": "jest --coverage"
   },
