@@ -9,7 +9,8 @@ type Attr = 'focalpoint' | 'aspectratio' | 'minwidth' | 'minheight';
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
-  public onResize?: (evt: CustomEvent<ResizeObserverEntry[]>) => void;
+  public onMaskResize?: (evt: CustomEvent<ResizeObserverEntry[]>) => void;
+  public onmaskresize?: (evt: CustomEvent<ResizeObserverEntry[]>) => void;
   private target: HTMLElement | null;
   private strategy: Strategy;
   private mutationObserver: MutationObserver;
@@ -165,7 +166,8 @@ class FocalPointMask extends HTMLElement {
     });
 
     this.dispatchEvent(event);
-    this.onResize && this.onResize(event);
+    this.onMaskResize && this.onMaskResize(event);
+    this.onmaskresize && this.onmaskresize(event);
   }
 }
 

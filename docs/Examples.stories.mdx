@@ -6,7 +6,7 @@ export const baseElement = document.createElement('focal-point-mask');
 
 export const TemplateFactory = mediaType => {
   const storyElement = baseElement.cloneNode();
-  return ({ onResize, ...props }) => {
+  return ({ onMaskResize, ...props }) => {
     if (storyElement.childElementCount === 0) {
       if (mediaType === 'image') {
         storyElement.innerHTML = `
@@ -23,9 +23,9 @@ export const TemplateFactory = mediaType => {
     Object.entries(props).forEach(([key, value]) => {
       storyElement.setAttribute(key, value);
     });
-    storyElement.onResize = evt => {
+    storyElement.onMaskResize = evt => {
       const { width, height } = evt.detail[0].contentRect;
-      onResize(`${width}×${height}`);
+      onMaskResize(`${width}×${height}`);
     };
     storyElement.children[0].play && storyElement.children[0].play();
     return storyElement;
