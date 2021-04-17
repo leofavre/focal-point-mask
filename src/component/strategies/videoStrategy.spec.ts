@@ -16,7 +16,7 @@ const maskElementWithUnexpectedChild = {
   querySelector: () => ({ ...videoElement, nodeName: 'DIV' })
 } as unknown as HTMLElement;
 
-const maskElementWithUneadyChild = {
+const maskElementWithUnreadyTarget = {
   querySelector: () => ({
     ...videoElement,
     readyState: 0,
@@ -25,7 +25,7 @@ const maskElementWithUneadyChild = {
   })
 } as unknown as HTMLElement;
 
-const maskElementWithoutChild = {
+const emptyMaskElement = {
   querySelector: () => null
 } as unknown as HTMLElement;
 
@@ -36,7 +36,7 @@ describe('videoStrategy', () => {
     });
 
     it('should return null if target is not found', () => {
-      expect(videoStrategy.getTarget(maskElementWithoutChild)).toBeNull();
+      expect(videoStrategy.getTarget(emptyMaskElement)).toBeNull();
     });
 
     it('should return false if it receives null', () => {
@@ -50,7 +50,7 @@ describe('videoStrategy', () => {
     });
 
     it('should return false if target is not found', () => {
-      expect(videoStrategy.isMatch(maskElementWithoutChild)).toBe(false);
+      expect(videoStrategy.isMatch(emptyMaskElement)).toBe(false);
     });
 
     it('should return false if target is not the expected type', () => {
@@ -68,11 +68,11 @@ describe('videoStrategy', () => {
     });
 
     it('should return false if target is not found', () => {
-      expect(videoStrategy.isReady(maskElementWithoutChild)).toBe(false);
+      expect(videoStrategy.isReady(emptyMaskElement)).toBe(false);
     });
 
     it('should return false if target is not ready', () => {
-      expect(videoStrategy.isReady(maskElementWithUneadyChild)).toBe(false);
+      expect(videoStrategy.isReady(maskElementWithUnreadyTarget)).toBe(false);
     });
 
     it('should return false if it receives null', () => {
@@ -98,7 +98,7 @@ describe('videoStrategy', () => {
     });
 
     it('should return undefined if target is not ready', () => {
-      expect(videoStrategy.getRatio(maskElementWithUneadyChild))
+      expect(videoStrategy.getRatio(maskElementWithUnreadyTarget))
         .toBeUndefined();
     });
 

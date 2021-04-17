@@ -8,7 +8,7 @@ const maskElement = {
   querySelector: () => divElement
 } as unknown as HTMLElement;
 
-const maskElementWithoutChild = {
+const emptyMaskElement = {
   querySelector: () => null
 } as unknown as HTMLElement;
 
@@ -19,7 +19,7 @@ describe('defaultStrategy', () => {
     });
 
     it('should return null if target is not found', () => {
-      expect(defaultStrategy.getTarget(maskElementWithoutChild)).toBeNull();
+      expect(defaultStrategy.getTarget(emptyMaskElement)).toBeNull();
     });
 
     it('should return false if it receives null', () => {
