@@ -11,7 +11,6 @@ Template.innerHTML = `
     ::slotted(img),
     ::slotted(video) {
       position: absolute;
-      display: block;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
