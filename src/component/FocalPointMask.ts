@@ -125,8 +125,10 @@ class FocalPointMask extends HTMLElement {
     this.handleChange();
 
     if (this.target != null && this.parsedAspectRatio == null) {
-      await this.strategy.load(this);
-      this.detectTarget();
+      if (this.strategy.load) {
+        await this.strategy.load(this);
+        this.detectTarget();
+      }
     }
   }
 

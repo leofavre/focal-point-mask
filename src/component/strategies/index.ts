@@ -8,7 +8,7 @@ export interface Strategy {
   getTarget(node: HTMLElement | null): HTMLElement | null;
   isMatch(node: HTMLElement | null): boolean;
   isReady(node: HTMLElement | null): boolean;
-  load(node: HTMLElement | null): Promise<HTMLElement | null>;
+  load?(node: HTMLElement | null): Promise<HTMLElement | null>;
   hasNaturalAspectRatio: boolean;
   getRatio(node: HTMLElement | null): number | undefined;
 }

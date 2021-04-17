@@ -11,9 +11,6 @@ const defaultStrategy: Strategy = {
   isReady () {
     return true;
   },
-  load (node) {
-    return Promise.resolve(this.getTarget(node));
-  },
   hasNaturalAspectRatio: false,
   getRatio () {
     return undefined;
