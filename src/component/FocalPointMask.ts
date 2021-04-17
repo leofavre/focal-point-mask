@@ -1,12 +1,8 @@
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
 import Template from './Template';
-import getAttr from '../helpers/getAttr';
-import setAttr from '../helpers/setAttr';
-import getMediaRatio from '../helpers/getMediaRatio';
-import onMediaLoaded from '../helpers/onMediaLoaded';
-import parseAspectRatio from '../helpers/parseAspectRatio';
-import parsePosition, { CENTER } from '../helpers/parsePosition';
-import type { MediaElement } from '../types/MediaElement';
+import { getAttr, setAttr, parseAspectRatio, parsePosition, CENTER } from '../helpers';
+import detectStrategy from './strategies';
+import type { Strategy } from './strategies';
 
 type Attr = 'focalpoint' | 'aspectratio' | 'minwidth' | 'minheight';
 
@@ -14,7 +10,8 @@ const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
   public onResize?: (evt: CustomEvent<ResizeObserverEntry[]>) => void;
-  private media: MediaElement | null;
+  private target: HTMLElement | null;
+  private strategy: Strategy;
   private mutationObserver: MutationObserver;
   private resizeObserver: ResizeObserver;
 
@@ -27,7 +24,7 @@ class FocalPointMask extends HTMLElement {
   }
 
   protected connectedCallback (): void {
-    this.detectMedia();
+    this.detectTarget();
 
     this.upgradeProperty('focalpoint');
     this.upgradeProperty('aspectratio');
@@ -37,7 +34,7 @@ class FocalPointMask extends HTMLElement {
     const options = { childList: true, subtree: true };
 
     this.mutationObserver = new MutationObserver(() => {
-      this.detectMedia();
+      this.detectTarget();
     });
 
     this.mutationObserver.observe(this, options);
@@ -98,9 +95,9 @@ class FocalPointMask extends HTMLElement {
   }
 
   private get parsedAspectRatio (): number | undefined {
-    return getMediaRatio(this.media) ||
-      parseAspectRatio(this.aspectRatio) ||
-      undefined;
+    return this.strategy.hasNaturalAspectRatio
+      ? this.strategy.getRatio(this)
+      : parseAspectRatio(this.aspectRatio);
   }
 
   get minWidth (): number | undefined {
@@ -121,17 +118,20 @@ class FocalPointMask extends HTMLElement {
     setAttr<Attr>(this, 'minheight', value);
   }
 
-  private detectMedia (): void {
-    this.media = this.querySelector('img, video');
+  private async detectTarget (): Promise<void> {
+    this.strategy = detectStrategy(this);
+    this.target = this.strategy.getTarget(this);
+
     this.handleChange();
 
-    if (this.media != null && this.parsedAspectRatio == null) {
-      onMediaLoaded(this.media, () => this.detectMedia());
+    if (this.target != null && this.parsedAspectRatio == null) {
+      await this.strategy.load(this);
+      this.detectTarget();
     }
   }
 
   private handleChange (): void {
-    if (this.media != null && this.parsedAspectRatio != null) {
+    if (this.target != null && this.parsedAspectRatio != null) {
       const cropSides = this.maskRatio < this.parsedAspectRatio;
       const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
 
@@ -145,15 +145,15 @@ class FocalPointMask extends HTMLElement {
         this.minHeight || 0
       );
 
-      this.media.style.position = 'absolute';
-      this.media.style.display = 'block';
-      this.media.style.width = cropSides ? 'auto' : '100%';
-      this.media.style.minWidth = `${minWidth}px`;
-      this.media.style.height = cropSides ? '100%' : 'auto';
-      this.media.style.minHeight = `${minHeight}px`;
-      this.media.style.top = `${top}%`;
-      this.media.style.left = `${left}%`;
-      this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
+      this.target.style.position = 'absolute';
+      this.target.style.display = 'block';
+      this.target.style.width = cropSides ? 'auto' : '100%';
+      this.target.style.minWidth = `${minWidth}px`;
+      this.target.style.height = cropSides ? '100%' : 'auto';
+      this.target.style.minHeight = `${minHeight}px`;
+      this.target.style.top = `${top}%`;
+      this.target.style.left = `${left}%`;
+      this.target.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
     }
   }
 
