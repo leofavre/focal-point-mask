@@ -12,6 +12,12 @@ const videoStrategy: Strategy = {
     const target = this.getTarget(node) as HTMLVideoElement | null;
     return (target?.readyState || 0) >= 1;
   },
+  getRatio (node) {
+    const target = this.getTarget(node) as HTMLVideoElement | null;
+    return target != null
+      ? target.videoWidth / target.videoHeight || undefined
+      : undefined;
+  },
   load (node) {
     const target = this.getTarget(node);
     return new Promise(resolve => {
@@ -19,12 +25,6 @@ const videoStrategy: Strategy = {
         ? target.addEventListener('loadedmetadata', () => resolve(target))
         : resolve(target);
     });
-  },
-  getRatio (node) {
-    const target = this.getTarget(node) as HTMLVideoElement | null;
-    return target != null
-      ? target.videoWidth / target.videoHeight || undefined
-      : undefined;
   }
 };
 

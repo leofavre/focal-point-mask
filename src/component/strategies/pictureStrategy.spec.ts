@@ -91,18 +91,6 @@ describe('pictureStrategy', () => {
     });
   });
 
-  describe('load', () => {
-    it('should resolve when target is loaded and return target', async () => {
-      const result = await pictureStrategy.load(maskElement);
-      expect(result).toBe(imageElement);
-    });
-
-    it('should resolve if target is null and return null', async () => {
-      const result = await pictureStrategy.load(null);
-      expect(result).toBe(null);
-    });
-  });
-
   describe('getRatio', () => {
     it('should return the correct target aspect ratio', () => {
       expect(pictureStrategy.getRatio(maskElement)).toBe(30 / 20);
@@ -115,6 +103,18 @@ describe('pictureStrategy', () => {
 
     it('should return undefined if it receives null', () => {
       expect(pictureStrategy.getRatio(null)).toBeUndefined();
+    });
+  });
+
+  describe('load', () => {
+    it('should resolve when target is loaded and return target', async () => {
+      const result = await pictureStrategy.load(maskElement);
+      expect(result).toBe(imageElement);
+    });
+
+    it('should resolve if target is null and return null', async () => {
+      const result = await pictureStrategy.load(null);
+      expect(result).toBe(null);
     });
   });
 });

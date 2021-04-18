@@ -12,6 +12,12 @@ const imageStrategy: Strategy = {
     const target = this.getTarget(node) as HTMLImageElement | null;
     return Boolean(target?.complete && target?.naturalWidth !== 0);
   },
+  getRatio (node) {
+    const target = this.getTarget(node) as HTMLImageElement | null;
+    return target != null
+      ? target.naturalWidth / target.naturalHeight || undefined
+      : undefined;
+  },
   load (node) {
     const target = this.getTarget(node);
     return new Promise(resolve => {
@@ -19,12 +25,6 @@ const imageStrategy: Strategy = {
         ? target.addEventListener('load', () => resolve(target))
         : resolve(target);
     });
-  },
-  getRatio (node) {
-    const target = this.getTarget(node) as HTMLImageElement | null;
-    return target != null
-      ? target.naturalWidth / target.naturalHeight || undefined
-      : undefined;
   }
 };
 

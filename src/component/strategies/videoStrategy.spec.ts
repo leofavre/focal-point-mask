@@ -6,7 +6,7 @@ const videoElement = {
   videoWidth: 30,
   videoHeight: 20,
   addEventListener: (attr: string, callback: () => void): void => callback()
-} as unknown as HTMLImageElement;
+} as unknown as HTMLVideoElement;
 
 const maskElement = {
   querySelector: () => videoElement
@@ -80,18 +80,6 @@ describe('videoStrategy', () => {
     });
   });
 
-  describe('load', () => {
-    it('should resolve when target is loaded and return target', async () => {
-      const result = await videoStrategy.load(maskElement);
-      expect(result).toBe(videoElement);
-    });
-
-    it('should resolve if target is null and return null', async () => {
-      const result = await videoStrategy.load(null);
-      expect(result).toBe(null);
-    });
-  });
-
   describe('getRatio', () => {
     it('should return the correct target aspect ratio', () => {
       expect(videoStrategy.getRatio(maskElement)).toBe(30 / 20);
@@ -104,6 +92,18 @@ describe('videoStrategy', () => {
 
     it('should return undefined if it receives null', () => {
       expect(videoStrategy.getRatio(null)).toBeUndefined();
+    });
+  });
+
+  describe('load', () => {
+    it('should resolve when target is loaded and return target', async () => {
+      const result = await videoStrategy.load(maskElement);
+      expect(result).toBe(videoElement);
+    });
+
+    it('should resolve if target is null and return null', async () => {
+      const result = await videoStrategy.load(null);
+      expect(result).toBe(null);
     });
   });
 });

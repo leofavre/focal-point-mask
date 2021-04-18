@@ -8,8 +8,8 @@ export interface Strategy {
   getTarget(node: HTMLElement | null): HTMLElement | null;
   isMatch(node: HTMLElement | null): boolean;
   isReady(node: HTMLElement | null): boolean;
+  getRatio(node: HTMLElement | null): number | undefined;
   load?(node: HTMLElement | null): Promise<HTMLElement | null>;
-  getRatio?(node: HTMLElement | null): number | undefined;
 }
 
 const strategies: Strategy[] = [

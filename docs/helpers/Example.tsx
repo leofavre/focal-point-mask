@@ -24,7 +24,6 @@ const Child: FC<ChildProps> = ({
   isVisible,
   isLoaded,
   focalPoint,
-  aspectRatio,
   minWidth,
   minHeight,
   duration,
@@ -39,7 +38,6 @@ const Child: FC<ChildProps> = ({
   return (
     <focal-point-mask
       focalPoint={focalPoint}
-      aspectRatio={aspectRatio}
       minWidth={minWidth}
       minHeight={minHeight}
       onAnimationStart={maybeOnAnimation}
@@ -71,7 +69,6 @@ interface ExampleProps extends Omit<
 const Example: FC<ExampleProps> = ({
   showProp,
   focalPoints,
-  aspectRatio,
   minWidth,
   minHeight,
   imgSrc,
@@ -95,7 +92,6 @@ const Example: FC<ExampleProps> = ({
   const ChildProps = {
     isLoaded,
     focalPoint,
-    aspectRatio,
     minWidth,
     minHeight,
     duration,
@@ -131,12 +127,6 @@ const Example: FC<ExampleProps> = ({
           <span className="caption-item">
             minHeight:
             <span>{minHeight}</span>
-          </span>
-        )}
-        {showProp === 'aspectRatio' && (
-          <span className="caption-item">
-            aspectRatio:
-            <span>{'"'}{aspectRatio}{'"'}</span>
           </span>
         )}
         <label className="caption-item">

@@ -1,10 +1,10 @@
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
 import Template from './Template';
-import { getAttr, setAttr, parseAspectRatio, parsePosition, CENTER } from '../helpers';
+import { getAttr, setAttr, parsePosition, CENTER } from '../helpers';
 import detectStrategy from './strategies';
 import type { Strategy } from './strategies';
 
-type Attr = 'focalpoint' | 'aspectratio' | 'minwidth' | 'minheight';
+type Attr = 'focalpoint' | 'minwidth' | 'minheight';
 
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
@@ -28,7 +28,6 @@ class FocalPointMask extends HTMLElement {
     this.detectTarget();
 
     this.upgradeProperty('focalpoint');
-    this.upgradeProperty('aspectratio');
     this.upgradeProperty('minheight');
     this.upgradeProperty('minwidth');
 
@@ -64,7 +63,7 @@ class FocalPointMask extends HTMLElement {
   }
 
   protected static get observedAttributes (): Attr[] {
-    return ['focalpoint', 'aspectratio', 'minwidth', 'minheight'];
+    return ['focalpoint', 'minwidth', 'minheight'];
   }
 
   protected attributeChangedCallback (): void {
@@ -87,18 +86,8 @@ class FocalPointMask extends HTMLElement {
     return parsePosition(this.focalPoint);
   }
 
-  get aspectRatio (): string | undefined {
-    return getAttr<Attr>(this, 'aspectratio');
-  }
-
-  set aspectRatio (value: string | undefined) {
-    setAttr<Attr>(this, 'aspectratio', value);
-  }
-
   private get parsedAspectRatio (): number | undefined {
-    return this.strategy.getRatio
-      ? this.strategy.getRatio(this) || parseAspectRatio(this.aspectRatio)
-      : parseAspectRatio(this.aspectRatio);
+    return this.strategy.getRatio(this);
   }
 
   get minWidth (): number | undefined {
