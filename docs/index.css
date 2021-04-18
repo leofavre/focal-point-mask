@@ -1,12 +1,38 @@
 .example {
   position: relative;
-  background-color: rgb(246, 249, 252);
+  font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
 }
 
 .example focal-point-mask {
-  height: 450px;
+  --height: 450px;
+  position: relative;
+  height: var(--height);
   resize: none;
   animation: accordion 4.3s ease-in-out infinite 3s;
+  z-index: 1;
+}
+
+.example.small focal-point-mask {
+  --height: 250px;
+  height: var(--height);
+}
+
+.example focal-point-mask ~ focal-point-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  overflow: visible;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.example focal-point-mask ~ focal-point-mask img {
+  filter: saturate(0);
 }
 
 .example img {
@@ -18,26 +44,52 @@
   opacity: 1;
 }
 
-.example .overlay {
-  position: fixed;
-  background-color: rgb(44, 103, 161, 0.2);
+.example figcaption {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2ch;
+  z-index: 2;
 }
 
-.example .focal-point {
-  position: absolute;
-  display: block;
-  width: 0px;
-  height: 0px;
+.example figcaption > * {
+  margin: 0 1ch;
 }
 
-.example .focal-point::before {
-  content: '';
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  top: -3px;
-  left: -3px;
-  background-color: yellow;
+.example .caption-item {
+  display: flex;
+  align-items: center;
+}
+
+.example .caption-item span {
+  font-family: "Operator Mono", "Fira Code Retina", "Fira Code", "FiraCode-Retina", "Andale Mono", "Lucida Console",Consolas,Monaco,monospace;
+  display: inline-block;
+  margin-left: 1ch;
+  padding: 3px 5px;
+  width: 6ch;
+  text-align: center;
+  overflow: hidden;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 3px;
+  font-size: 13px;
+  border: 1px solid #EEEEEE;
+  color: rgba(51,51,51,0.9);
+  background-color: #F8F8F8;
+}
+
+.example-focalPoint .caption-item span {
+  width: 12ch;
+}
+
+.side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.side-by-side .example {
+  padding-bottom: 2ch;
 }
 
 @keyframes accordion {
@@ -45,15 +97,15 @@
     width: 100%;
   }
   15% {
-    width: 450px;
-  }
-  50% {
-    width: 450px;
-  }
-  65% {
     width: 100%;
   }
-  100% {
+  30% {
+    width: var(--height);
+  }
+  65% {
+    width: var(--height);
+  }
+  80% {
     width: 100%;
   }
 }

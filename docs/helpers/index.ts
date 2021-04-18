@@ -1,9 +1,11 @@
 import Example from './Example';
-import grabMarkdownSections from './grabMarkdownSections';
 import Storyless from './Storyless';
+import SideBySide from './SideBySide';
+import grabMarkdownSections from './grabMarkdownSections';
 
 export {
   Example,
-  grabMarkdownSections,
-  Storyless
+  Storyless,
+  SideBySide,
+  grabMarkdownSections
 };

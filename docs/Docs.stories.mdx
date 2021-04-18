@@ -1,6 +1,6 @@
 import { Meta, Description } from '@storybook/addon-docs/blocks';
 import { ArgsTable as PureArgsTable } from '@storybook/components';
-import { Example, grabMarkdownSections } from './helpers';
+import { Example, SideBySide, grabMarkdownSections } from './helpers';
 import Readme from '../README.md';
 import argTypes from './argTypes';
 import '../src'
@@ -9,25 +9,75 @@ import '../src'
 
 <Description>{grabMarkdownSections(Readme)[0]}</Description>
 
-<Example
-  name="lake"
+<Exampl
+  showProp="focalPoint"
   focalPoints={['50% 15%', '50% 85%']}
+  aspectRatio="3/2"
   imgSrc="https://picsum.photos/id/1011/3840/2160"
 />
 
 <Description>{grabMarkdownSections(Readme)[1]}</Description>
 
-<Example
-  name="street"
-  focalPoints={['26% 39%', '26% 100%']}
-  imgSrc="https://picsum.photos/id/22/3840/2160"
+<Exampl
+  showProp="focalPoint"
+  focalPoints={['35% 75%']}
+  aspectRatio="3/2"
+  imgSrc="https://picsum.photos/id/1012/3840/2160"
 />
 
 ## API
 
 <PureArgsTable rows={argTypes}/>
 
-### Using properties and events
+## Examples
+
+### focalPoint
+
+<SideBySide>
+  <Example
+    showProp="focalPoint"
+    focalPoints={['80% 100%']}
+    aspectRatio="3/2"
+    imgSrc="https://picsum.photos/id/1011/1350/900"
+    isSmall
+  />
+  <Example
+    showProp="focalPoint"
+    focalPoints={['80% 0%']}
+    aspectRatio="3/2"
+    imgSrc="https://picsum.photos/id/1011/1350/900"
+    isSmall
+  />
+</SideBySide>
+
+### minWidth
+
+### minHeight
+
+<SideBySide>
+  <Example
+    showProp="minHeight"
+    focalPoints={['40% 100%']}
+    aspectRatio="4/3"
+    minHeight="0"
+    imgSrc="https://picsum.photos/id/22/1200/900"
+    isSmall
+  />
+  <Example
+    showProp="minHeight"
+    focalPoints={['40% 100%']}
+    aspectRatio="4/3"
+    minHeight="375"
+    imgSrc="https://picsum.photos/id/22/1200/900"
+    isSmall
+  />
+</SideBySide>
+
+### aspectRatio
+
+### onMaskResize
+
+## Using properties and events
 
 Properties can be set through HTML.
 

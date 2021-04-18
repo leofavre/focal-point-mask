@@ -1,75 +1,90 @@
-import React, { FC, useRef, useState, useEffect } from 'react';
-import type FocalPointMask from '../../src/class';
+import React, { FC, useState, useEffect } from 'react';
+import type { FocalPointMaskProps, FocalPointMaskReactProps } from '../../src/class';
 
-interface OverlayStyle {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
+declare global {
+  // eslint-disable-next-line no-unused-vars
+  namespace JSX {
+    // eslint-disable-next-line no-unused-vars
+    interface IntrinsicElements {
+      'focal-point-mask': FocalPointMaskReactProps
+    }
+  }
 }
 
-const initialOverlayStyle: OverlayStyle = {
-  top: 0,
-  left: 0,
-  width: 0,
-  height: 0
+interface ChildProps extends Omit<FocalPointMaskProps, 'onMaskResize'> {
+  isVisible?: boolean;
+  isLoaded?: boolean;
+  duration: number;
+  imgSrc: string;
+  onAnimation?: () => void;
+  onLoad: () => void;
+}
+
+const Child: FC<ChildProps> = ({
+  isVisible,
+  isLoaded,
+  focalPoint,
+  aspectRatio,
+  minWidth,
+  minHeight,
+  duration,
+  imgSrc,
+  onAnimation,
+  onLoad
+}: ChildProps) => {
+  const maybeOnAnimation = () => {
+    onAnimation && onAnimation();
+  };
+
+  return (
+    <focal-point-mask
+      focalPoint={focalPoint}
+      aspectRatio={aspectRatio}
+      minWidth={minWidth}
+      minHeight={minHeight}
+      onAnimationStart={maybeOnAnimation}
+      onAnimationIteration={maybeOnAnimation}
+      style={{
+        visibility: isVisible ? 'visible' : 'hidden',
+        animationDuration: `${duration}ms`
+      }}
+    >
+      <img
+        className={`aspect-ratio-box-inside ${isLoaded ? 'loaded' : ''}`}
+        src={imgSrc}
+        onLoad={onLoad}
+      />
+    </focal-point-mask>
+  );
 };
 
-interface ExampleProps {
-  name: string;
+interface ExampleProps extends Omit<
+  FocalPointMaskProps, 'focalPoint' | 'onMaskResize'
+> {
+  showProp?: string;
   focalPoints: string[];
   imgSrc: string;
   duration?: number;
-  showOverlay?: boolean;
+  isSmall?: boolean;
 }
 
 const Example: FC<ExampleProps> = ({
-  name,
+  showProp,
   focalPoints,
+  aspectRatio,
+  minWidth,
+  minHeight,
   imgSrc,
   duration = 4300,
-  showOverlay
+  isSmall
 }: ExampleProps) => {
   const [count, setCount] = useState<number>(0);
-  const [imgSrcLoaded, setImgSrcLoaded] = useState<boolean>(false);
+  const [isLoaded, setImgSrcLoaded] = useState<boolean>(false);
+  const [isRevealed, setIsRevealed] = useState<boolean>(false);
   const [focalPoint, setFocalPoint] = useState<string>(focalPoints[0]);
-  const [overlayStyle, setOverlayStyle] =
-    useState<OverlayStyle>(initialOverlayStyle);
-  const maskElementRef = useRef();
-
-  console.log(focalPoint);
 
   const handleLoad = () => setImgSrcLoaded(true);
-
-  const handleAnimation = () => {
-    setCount(count + 1);
-  };
-
-  const handleMaskResize = () => {
-    const maskElement: FocalPointMask | undefined = maskElementRef.current;
-
-    if (maskElement != null && showOverlay) {
-      const targetElement = maskElement.children[0];
-      const targetPos = targetElement.getBoundingClientRect();
-
-      const nextOverlayStyle = {
-        top: targetPos.top,
-        left: targetPos.left,
-        width: targetPos.width,
-        height: targetPos.height
-      };
-
-      setOverlayStyle(nextOverlayStyle);
-    }
-  };
-
-  useEffect(() => {
-    const maskElement: FocalPointMask | undefined = maskElementRef.current;
-
-    if (maskElement != null && maskElement.onMaskResize == null) {
-      maskElement.onMaskResize = handleMaskResize;
-    }
-  }, []);
+  const handleAnimation = () => setCount(count + 1);
 
   useEffect(() => {
     const len = focalPoints.length;
@@ -77,34 +92,63 @@ const Example: FC<ExampleProps> = ({
     setFocalPoint(focalPoints[currentIndex]);
   }, [focalPoints, count]);
 
+  const ChildProps = {
+    isLoaded,
+    focalPoint,
+    aspectRatio,
+    minWidth,
+    minHeight,
+    duration,
+    imgSrc,
+    onLoad: handleLoad
+  };
+
   return (
-    <div className={`example example-${name}`}>
-      <focal-point-mask
-        ref={maskElementRef}
-        focalPoint={focalPoint}
-        onAnimationStart={handleAnimation}
-        onAnimationIteration={handleAnimation}
-        style={{ animationDuration: `${duration}ms` }}
-      >
-        <img
-          className={imgSrcLoaded ? 'loaded' : ''}
-          src={imgSrc}
-          onLoad={handleLoad}
-        />
-      </focal-point-mask>
-      <div
-        className={`overlay ${showOverlay ? 'visible' : ''}`}
-        style={overlayStyle}
-      >
-        <span
-          className="focal-point"
-          style={{
-            top: focalPoint.split(' ')[0],
-            left: focalPoint.split(' ')[1]
-          }}
-        />
-      </div>
-    </div>
+    <figure className={`example example-${showProp} ${isSmall ? 'small' : ''}`}>
+      <Child
+        isVisible
+        onAnimation={handleAnimation}
+        {...ChildProps}
+      />
+      <Child
+        isVisible={isRevealed}
+        {...ChildProps}
+      />
+      <figcaption>
+        {showProp === 'focalPoint' && (
+          <span className="caption-item">
+            focalPoint:
+            <span>{'"'}{focalPoint}{'"'}</span>
+          </span>
+        )}
+        {showProp === 'minWidth' && (
+          <span className="caption-item">
+            minWidth:
+            <span>{minWidth}</span>
+          </span>
+        )}
+        {showProp === 'minHeight' && (
+          <span className="caption-item">
+            minHeight:
+            <span>{minHeight}</span>
+          </span>
+        )}
+        {showProp === 'aspectRatio' && (
+          <span className="caption-item">
+            aspectRatio:
+            <span>{'"'}{aspectRatio}{'"'}</span>
+          </span>
+        )}
+        <label className="caption-item">
+          <input
+            type="checkbox"
+            defaultChecked={isRevealed}
+            onChange={() => setIsRevealed(!isRevealed)}
+          />
+          unmask
+        </label>
+      </figcaption>
+    </figure>
   );
 };
 

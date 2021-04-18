@@ -36,6 +36,11 @@ h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-child(2) {
 
 /* markdown */
 
+.sbdocs-wrapper {
+  /* prevents examples from generating scrollbars */
+  overflow: hidden;
+}
+
 .sbdocs h2,
 .sbdocs h2:first-of-type {
   margin-top: 36px;
@@ -53,4 +58,8 @@ h2#api ~ * > .docblock-argstable tbody tr:not([title]) td:nth-child(2) {
 
 .sbdocs .example {
   margin: 54px 0px;
+}
+
+.sbdocs .example.small {
+  margin: 18px 0px;
 }
