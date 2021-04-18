@@ -1,0 +1,230 @@
+import { Meta, Description } from '@storybook/addon-docs/blocks';
+import { ArgsTable as PureArgsTable } from '@storybook/components';
+import { Example, SideBySide } from './helpers';
+import argTypes from './argTypes';
+import '../src'
+
+<Meta title="Focal Point Mask"/>
+
+# Focal Point Mask
+
+#### A responsive mask web component that dynamically crops any visual media preserving a given focal point.
+
+<Example
+  showProp="focalPoint"
+  focalPoints={['50% 15%', '50% 85%']}
+  imgSrc="https://picsum.photos/id/1011/3840/2160"
+/>
+
+## Quick Start
+
+### Install
+
+#### npm
+
+```bash
+npm install --save focal-point-mask
+```
+
+#### yarn
+
+```bash
+yarn add focal-point-mask
+```
+
+### Import
+
+Import the package to make the `<focal-point-mask>` tag available in the HTML.
+
+```js
+import 'focal-point-mask';
+```
+
+If you prefer to define the tag manually, import the class instead.
+
+```js
+import FocalPointMask from 'focal-point-mask/class';
+
+if (!window.customElements.get('focal-point-mask')) {
+  window.customElements.define('focal-point-mask', FocalPointMask);
+}
+```
+
+### Use
+
+Wrap images, videos or any visual media in `<focal-point-mask>`.
+
+```html
+<focal-point-mask focalPoint="35% 75%">
+  <img src="image.png">
+</focal-point-mask>
+```
+
+Style `focal-point-mask` with some dimensions, otherwise it won't be displayed.
+
+```css
+focal-point-mask {
+  width: 100%;
+  height: 450px;
+}
+```
+
+<Example
+  showProp="focalPoint"
+  focalPoints={['35% 75%']}
+  imgSrc="https://picsum.photos/id/1012/3840/2160"
+/>
+
+## API
+
+<PureArgsTable rows={argTypes}/>
+
+### focalPoint
+
+<SideBySide>
+  <Example
+    showProp="focalPoint"
+    focalPoints={['80% 100%']}
+    imgSrc="https://picsum.photos/id/1011/1350/900"
+    isSmall
+  />
+  <Example
+    showProp="focalPoint"
+    focalPoints={['80% 0%']}
+    imgSrc="https://picsum.photos/id/1011/1350/900"
+    isSmall
+  />
+</SideBySide>
+
+The coordinate of the media area that should be preserved when it is cropped by the mask.
+
+Similarly to [background-position](https://cssreference.io/property/background-position/) in CSS, it expects a pair of position keywords or percentage values representing the distance from the media top left corner to the focal point.
+
+If a single value is passed, the second value is set to *"center"*.
+
+Examples: `"top right"` `"center left"` `"25% 65%"`
+
+### minWidth
+
+<SideBySide>
+  <Example
+    showProp="minWidth"
+    focalPoints={['35% 50%']}
+    minWidth="0"
+    imgSrc="https://picsum.photos/id/1076/1200/900"
+    resizeTo="250"
+  />
+  <Example
+    showProp="minWidth"
+    focalPoints={['35% 50%']}
+    minWidth="500"
+    imgSrc="https://picsum.photos/id/1076/1200/900"
+    resizeTo="250"
+  />
+</SideBySide>
+
+Prevents the media width from shrinking beyond a certain point inside the mask.
+
+Example: `700`
+
+### minHeight
+
+<SideBySide>
+  <Example
+    showProp="minHeight"
+    focalPoints={['40% 100%']}
+    minHeight="0"
+    imgSrc="https://picsum.photos/id/22/1200/900"
+    isSmall
+  />
+  <Example
+    showProp="minHeight"
+    focalPoints={['40% 100%']}
+    minHeight="375"
+    imgSrc="https://picsum.photos/id/22/1200/900"
+    isSmall
+  />
+</SideBySide>
+
+Prevents the media height from shrinking beyond a certain point inside the mask.
+
+Example: `700`
+
+### onMaskResize
+
+<Example
+  showProp="focalPoint"
+  focalPoints={['40% 100%']}
+  minHeight="0"
+  imgSrc="https://picsum.photos/id/22/1200/900"
+  isSmall
+/>
+
+Called when the mask is resized, the event forwards [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) entries in its detail property which contain information about the current mask dimensions.
+
+## Using properties and events
+
+Properties can be set through HTML.
+
+```html
+<focal-point-mask focalPoint="35% 75%" minHeight="500">
+```
+
+Properties can be got and set through JavaScript.
+
+```js
+const focalPointMask = document.querySelector('focal-point-mask');
+
+// attribute get/set
+const attr = focalPointMask.getAttribute('focalPoint');
+focalPointMask.setAttribute('focalPoint', '35% 75%');
+
+// property get/set
+const prop = focalPointMask.minHeight;
+focalPointMask.minHeight = 500;
+```
+
+Event listeners can **only** be attached through JavaScript using either `addEventListener` or event methods.
+
+```js
+const focalPointMask = document.querySelector('focal-point-mask');
+
+// addEventListener
+focalPointMask.addEventListener('maskResize', callback);
+
+// event method
+focalPointMask.onMaskResize(callback);
+```
+
+The following example **will not work** in native HTML but frameworks like [Vue](https://custom-elements-everywhere.com/libraries/vue/results/results.html) and [Angular](https://custom-elements-everywhere.com/libraries/angular/results/results.html) (but not [React](https://custom-elements-everywhere.com/libraries/react/results/results.html)) provide HTML-like syntaxes that allow properties to be passed as actual properties and not as attributes. See [Custom Elements Everywhere](https://custom-elements-everywhere.com/) for more information.
+
+```html
+<!-- this will NOT work in native HTML -->
+<focal-point-mask onMaskResize="callback(event)">
+```
+
+## How it works
+
+Some text about aspect ratios.
+
+## Use cases
+
+### Images
+
+Some text about calculating image aspect ratio.
+
+### Videos
+
+Some text about calculating video aspect ratio.
+
+### Pictures
+
+Some text about calculating picture aspect ratio.
+
+### Other elements
+
+Some text about calculating div or iframe aspect ratios.
+
+## Credits
+
+Some text about libraries, fonts and images used.

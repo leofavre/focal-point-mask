@@ -1,9 +1,8 @@
-function getAttr<A, T> (
+function getAttr<A = string> (
   el: HTMLElement,
-  attr: A,
-  castFn: (arg: string | null) => T
-): T | undefined {
-  return castFn(el.getAttribute(String(attr))) || undefined;
+  attrName: A
+): string | undefined {
+  return el.getAttribute(String(attrName)) ?? undefined;
 }
 
 export default getAttr;

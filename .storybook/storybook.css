@@ -1,0 +1,65 @@
+/* show only the first description paragraph on
+ArgsTables except on the one in the API section */
+
+.docblock-argstable tbody tr:not([title]) td:nth-child(2) p:nth-child(n + 2) {
+  display: none;
+}
+
+/* hide ArgsTables events except in the API section */
+
+.docblock-argstable tbody tr[title]:nth-of-type(n + 2),
+.docblock-argstable tbody tr[title]:nth-of-type(n + 2) ~ tr {
+  /* display: none; */
+}
+
+/* Resize API ArgsTable columns */
+
+.docblock-argstable thead th:nth-child(2),
+.docblock-argstable tbody tr:not([title]) td:nth-child(2) {
+  width: 52%;
+}
+
+/* Hide API ArgsTable "Defaults" column on smaller screens */
+
+@media only screen and (max-width: 700px) {
+  .docblock-argstable thead th:nth-last-child(1),
+  .docblock-argstable tbody tr:not([title]) td:nth-last-child(1) {
+    display: none;
+  }
+}
+
+/* prevent ArgsTables textarea from being manually resized */
+
+.docblock-argstable textarea {
+  resize: none;
+}
+
+/* markdown */
+
+.sbdocs-wrapper {
+  /* prevents examples from generating scrollbars */
+  overflow: hidden;
+}
+
+.sbdocs h2,
+.sbdocs h2:first-of-type {
+  margin-top: 36px;
+}
+
+.sbdocs h3,
+.sbdocs h3:first-of-type {
+  margin-top: 36px;
+}
+
+.sbdocs h4,
+.sbdocs h4:first-of-type {
+  margin-top: 18px;
+}
+
+.sbdocs .example {
+  margin: 54px 0px;
+}
+
+.sbdocs .example.small {
+  margin: 18px 0px;
+}

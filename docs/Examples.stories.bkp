@@ -1,0 +1,103 @@
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
+import argTypes from './argTypes';
+import '../src';
+
+export const baseElement = document.createElement('focal-point-mask');
+
+export const TemplateFactory = mediaType => {
+  const storyElement = baseElement.cloneNode();
+  return ({ onMaskResize, ...props }) => {
+    if (storyElement.childElementCount === 0) {
+      if (mediaType === 'image') {
+        storyElement.innerHTML = `
+          <img src="https://picsum.photos/id/1012/3840/2160">
+        `;
+      } else if (mediaType === 'video') {
+        storyElement.innerHTML = `
+          <video autoplay muted loop>
+            <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4">
+          </video>
+        `;
+      }
+    }
+    Object.entries(props).forEach(([key, value]) => {
+      storyElement.setAttribute(key, value);
+    });
+    storyElement.onMaskResize = evt => {
+      const { width, height } = evt.detail[0].contentRect;
+      onMaskResize(`${width}×${height}`);
+    };
+    storyElement.children[0].play && storyElement.children[0].play();
+    return storyElement;
+  }
+}
+
+<Meta title="Examples" argTypes={argTypes}/>
+
+# Focal Point Mask
+
+## Image Example
+
+Drag the bottom right corner of the image to resize it.
+
+<Canvas>
+  <Story
+    name="image"
+    args={{
+      focalPoint: '35% 75%',
+      minWidth: '700',
+      minHeight: '0'
+    }}
+    parameters={{
+      controls: {
+        expanded: false
+      },
+      docs: {
+        source: {
+          code: '' +
+            '<focal-point-mask focalPoint="35% 75%" minWidth="700">\n' +
+            '  <img src="https://picsum.photos/id/1012/3840/2160">\n' +
+            '</focal-point-mask>'
+        }
+      }
+    }}
+  >
+    {TemplateFactory('image').bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="image"/>
+
+## Video Example
+
+Drag the bottom right corner of the video to resize it.
+
+<Canvas>
+  <Story
+    name="video"
+    args={{
+      focalPoint: 'center',
+      minWidth: '0',
+      minHeight: '0'
+    }}
+    parameters={{
+      controls: {
+        expanded: false
+      },
+      docs: {
+        source: {
+          code: '' +
+            '<focal-point-mask focalPoint="center">\n' +
+            '  <video autoplay muted loop>\n' +
+            '    <source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1280_10MG.mp4">\n' +
+            '  </video>\n' +
+            '</focal-point-mask>'
+        }
+      }
+    }}
+  >
+    {TemplateFactory('video').bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="video"/>

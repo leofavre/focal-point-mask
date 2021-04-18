@@ -1,25 +1,18 @@
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
 import Template from './Template';
-import getAttr from '../helpers/getAttr';
-import setAttr from '../helpers/setAttr';
-import getMediaRatio from '../helpers/getMediaRatio';
-import onMediaLoaded from '../helpers/onMediaLoaded';
-import parseAspectRatio from '../helpers/parseAspectRatio';
-import parsePosition, { CENTER } from '../helpers/parsePosition';
-import type { MediaElement } from '../types/MediaElement';
+import { getAttr, setAttr, parsePosition, CENTER } from '../helpers';
+import detectStrategy from './strategies';
+import type { Strategy } from './strategies';
 
-declare global {
-  interface CSSStyleDeclaration {
-    aspectRatio: string;
-  }
-}
-
-type Attr = 'focalpoint' | 'mediaratio' | 'mediaminwidth' | 'mediaminheight';
+type Attr = 'focalpoint' | 'minwidth' | 'minheight';
 
 const ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
 
 class FocalPointMask extends HTMLElement {
-  private media: MediaElement | null;
+  public onMaskResize?: (event: CustomEvent<ResizeObserverEntry[]>) => void;
+  public onmaskresize?: (event: CustomEvent<ResizeObserverEntry[]>) => void;
+  private target: HTMLElement | null;
+  private strategy: Strategy;
   private mutationObserver: MutationObserver;
   private resizeObserver: ResizeObserver;
 
@@ -31,115 +24,144 @@ class FocalPointMask extends HTMLElement {
     this.shadowRoot!.appendChild(content);
   }
 
-  connectedCallback (): void {
-    this.detectMedia();
+  protected connectedCallback (): void {
+    this.detectTarget();
+
+    this.upgradeProperty('focalpoint');
+    this.upgradeProperty('minheight');
+    this.upgradeProperty('minwidth');
 
     const options = { childList: true, subtree: true };
-    this.mutationObserver = new MutationObserver(() => this.detectMedia());
+
+    this.mutationObserver = new MutationObserver(() => {
+      this.detectTarget();
+    });
+
     this.mutationObserver.observe(this, options);
 
-    this.resizeObserver = new ResizeObserver(() => this.handleResize());
+    this.resizeObserver = new ResizeObserver(
+      (entries: ResizeObserverEntry[]) => {
+        this.handleChange();
+        this.handleResize(entries);
+      }
+    );
+
     this.resizeObserver.observe(this);
   }
 
-  disconnectedCallback (): void {
+  protected disconnectedCallback (): void {
     this.mutationObserver && this.mutationObserver.disconnect();
     this.resizeObserver && this.resizeObserver.disconnect();
   }
 
-  static get observedAttributes (): Attr[] {
-    return ['focalpoint', 'mediaratio', 'mediaminwidth', 'mediaminheight'];
+  private upgradeProperty (propName: Attr) {
+    if (Object.prototype.hasOwnProperty.call(this, propName)) {
+      const value = this[propName];
+      delete this[propName];
+      this[propName] = value;
+    }
   }
 
-  attributeChangedCallback (): void {
-    this.handleResize();
+  protected static get observedAttributes (): Attr[] {
+    return ['focalpoint', 'minwidth', 'minheight'];
   }
 
-  get maskRatio (): number {
+  protected attributeChangedCallback (): void {
+    this.handleChange();
+  }
+
+  private get maskRatio (): number {
     return this.offsetWidth / this.offsetHeight;
   }
 
   get focalPoint (): string | undefined {
-    return getAttr<Attr, string>(this, 'focalpoint', String);
+    return getAttr<Attr>(this, 'focalpoint');
   }
 
   set focalPoint (value: string | undefined) {
     setAttr<Attr>(this, 'focalpoint', value);
   }
 
-  get parsedFocalPoint (): number[] | undefined {
+  private get parsedFocalPoint (): number[] | undefined {
     return parsePosition(this.focalPoint);
   }
 
-  get mediaRatio (): string | undefined {
-    return getAttr<Attr, string>(this, 'mediaratio', String);
+  private get parsedAspectRatio (): number | undefined {
+    return this.strategy.getRatio(this);
   }
 
-  set mediaRatio (value: string | undefined) {
-    setAttr<Attr>(this, 'mediaratio', value);
+  get minWidth (): number | undefined {
+    const attr = getAttr<Attr>(this, 'minwidth');
+    return attr != null ? Number(attr) : attr;
   }
 
-  get parsedMediaRatio (): number | undefined {
-    return parseAspectRatio(this.mediaRatio) ||
-      getMediaRatio(this.media) ||
-      undefined;
+  set minWidth (value: number | undefined) {
+    setAttr<Attr>(this, 'minwidth', value);
   }
 
-  get mediaMinWidth (): number | undefined {
-    return getAttr<Attr, number>(this, 'mediaminwidth', Number);
+  get minHeight (): number | undefined {
+    const attr = getAttr<Attr>(this, 'minheight');
+    return attr != null ? Number(attr) : attr;
   }
 
-  set mediaMinWidth (value: number | undefined) {
-    setAttr<Attr>(this, 'mediaminwidth', value);
+  set minHeight (value: number | undefined) {
+    setAttr<Attr>(this, 'minheight', value);
   }
 
-  get mediaMinHeight (): number | undefined {
-    return getAttr<Attr, number>(this, 'mediaminheight', Number);
-  }
+  private async detectTarget (): Promise<void> {
+    this.strategy = detectStrategy(this);
+    this.target = this.strategy.getTarget(this);
 
-  set mediaMinHeight (value: number | undefined) {
-    setAttr<Attr>(this, 'mediaminheight', value);
-  }
+    this.handleChange();
 
-  detectMedia (): void {
-    this.media = this.querySelector('img, video');
-    this.handleResize();
-
-    if (this.media != null && this.parsedMediaRatio == null) {
-      onMediaLoaded(this.media, () => this.detectMedia());
+    if (this.target != null && this.parsedAspectRatio == null) {
+      if (this.strategy.load) {
+        await this.strategy.load(this);
+        this.detectTarget();
+      }
     }
   }
 
-  handleResize (): void {
-    if (this.media != null && this.parsedMediaRatio != null) {
-      const clipSides = this.maskRatio < this.parsedMediaRatio;
-      const keepUserRatio = this.parsedMediaRatio !== getMediaRatio(this.media);
+  private handleChange (): void {
+    if (this.target != null && this.parsedAspectRatio != null) {
+      const cropSides = this.maskRatio < this.parsedAspectRatio;
       const [top = CENTER, left = CENTER] = this.parsedFocalPoint || [];
 
       const minWidth = Math.max(
-        this.mediaMinWidth || 0,
-        (this.mediaMinHeight || 0) * this.parsedMediaRatio
+        this.minWidth || 0,
+        (this.minHeight || 0) * this.parsedAspectRatio
       );
 
       const minHeight = Math.max(
-        (this.mediaMinWidth || 0) / this.parsedMediaRatio,
-        this.mediaMinHeight || 0
+        (this.minWidth || 0) / this.parsedAspectRatio,
+        this.minHeight || 0
       );
 
-      this.media.style.position = 'absolute';
-      this.media.style.display = 'block';
-      this.media.style.width = clipSides ? 'auto' : '100%';
-      this.media.style.minWidth = `${minWidth}px`;
-      this.media.style.height = clipSides ? '100%' : 'auto';
-      this.media.style.minHeight = `${minHeight}px`;
-      this.media.style.top = `${top}%`;
-      this.media.style.left = `${left}%`;
-      this.media.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
-
-      this.media.style.aspectRatio = keepUserRatio
-        ? `${this.parsedMediaRatio}/1`
-        : '';
+      this.target.style.position = 'absolute';
+      this.target.style.width = cropSides ? 'auto' : '100%';
+      this.target.style.minWidth = `${minWidth}px`;
+      this.target.style.height = cropSides ? '100%' : 'auto';
+      this.target.style.minHeight = `${minHeight}px`;
+      this.target.style.top = `${top}%`;
+      this.target.style.left = `${left}%`;
+      this.target.style.transform = `translate(${left * -1}%, ${top * -1}%)`;
     }
+  }
+
+  private handleResize (detail: ResizeObserverEntry[]): void {
+    const config = {
+      bubbles: true,
+      detail
+    };
+
+    const evt = new CustomEvent<ResizeObserverEntry[]>('maskResize', config);
+    const altEvt = new CustomEvent<ResizeObserverEntry[]>('maskresize', config);
+
+    this.dispatchEvent(evt);
+    this.dispatchEvent(altEvt);
+
+    this.onMaskResize && this.onMaskResize(evt);
+    this.onmaskresize && this.onmaskresize(altEvt);
   }
 }
 
