@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import type { FocalPointMaskProps, FocalPointMaskReactProps } from '../../src/class';
 
 declare global {
@@ -64,6 +64,7 @@ interface ExampleProps extends Omit<
   imgSrc: string;
   duration?: number;
   isSmall?: boolean;
+  resizeTo?: number;
 }
 
 const Example: FC<ExampleProps> = ({
@@ -73,12 +74,14 @@ const Example: FC<ExampleProps> = ({
   minHeight,
   imgSrc,
   duration = 4300,
-  isSmall
+  isSmall,
+  resizeTo
 }: ExampleProps) => {
   const [count, setCount] = useState<number>(0);
   const [isLoaded, setImgSrcLoaded] = useState<boolean>(false);
   const [isRevealed, setIsRevealed] = useState<boolean>(false);
   const [focalPoint, setFocalPoint] = useState<string>(focalPoints[0]);
+  const exampleRef = useRef<HTMLElement>();
 
   const handleLoad = () => setImgSrcLoaded(true);
   const handleAnimation = () => setCount(count + 1);
@@ -88,6 +91,12 @@ const Example: FC<ExampleProps> = ({
     const currentIndex = Math.round((count / len % 1) * len);
     setFocalPoint(focalPoints[currentIndex]);
   }, [focalPoints, count]);
+
+  useEffect(() => {
+    if (exampleRef.current && resizeTo != null) {
+      exampleRef.current.style.setProperty('--resize', `${resizeTo}px`);
+    }
+  }, [resizeTo]);
 
   const ChildProps = {
     isLoaded,
@@ -100,7 +109,10 @@ const Example: FC<ExampleProps> = ({
   };
 
   return (
-    <figure className={`example example-${showProp} ${isSmall ? 'small' : ''}`}>
+    <figure
+      ref={exampleRef}
+      className={`example example-${showProp} ${isSmall ? 'small' : ''}`}
+    >
       <Child
         isVisible
         onAnimation={handleAnimation}

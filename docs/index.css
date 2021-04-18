@@ -2,10 +2,12 @@
   position: relative;
   font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
+  --height: 450px;
+  width: 100%;
+  margin: 0;
 }
 
 .example focal-point-mask {
-  --height: 450px;
   position: relative;
   height: var(--height);
   resize: none;
@@ -13,8 +15,22 @@
   z-index: 1;
 }
 
-.example.small focal-point-mask {
+.example::before {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--height);
+  background-color: #eee;
+}
+
+.example.small {
   --height: 250px;
+}
+
+.example.small focal-point-mask {
   height: var(--height);
 }
 
@@ -100,10 +116,10 @@
     width: 100%;
   }
   30% {
-    width: var(--height);
+    width: var(--resize, var(--height));
   }
   65% {
-    width: var(--height);
+    width: var(--resize, var(--height));
   }
   80% {
     width: 100%;
